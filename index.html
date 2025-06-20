@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2468 Game Online - Play Free Number Puzzle Games | 2468game.online</title>
+    <meta name="description" content="Play the best 2468 and 2048 number puzzle games online for free. Enjoy smooth gameplay and challenge yourself!">
+    <meta name="keywords" content="2468, 2048, number puzzle, free online games, 2468game, puzzle, brain game, logic, online, play, challenge">
+    <link rel="canonical" href="https://2468game.online/">
+    <meta property="og:title" content="2468 Game Online - Play Free Number Puzzle Games">
+    <meta property="og:description" content="Play the best 2468 and 2048 number puzzle games online for free. Experience smooth gameplay and challenge yourself!">
+    <meta property="og:url" content="https://2468game.online/">
+    <meta property="og:type" content="website">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D1EDWD1K0M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-D1EDWD1K0M');
+    </script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #faf8f0;
+        }
+        .main-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            color: #22223b;
+        }
+        .main-desc {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #4a4e69;
+            margin-bottom: 1.5rem;
+        }
+        .game-fullscreen {
+            width: 100vw;
+            height: calc(100vh - 120px);
+            border: none;
+            display: block;
+            margin: 0 auto;
+            background: #faf8f0;
+        }
+        @media (max-width: 600px) {
+            .main-title { font-size: 1.5rem; }
+            .main-desc { font-size: 1rem; }
+            .game-fullscreen { height: calc(100vh - 90px); }
+        }
+        :root {
+            --apple-blue: #007AFF;
+            --apple-gray: #8E8E93;
+            --apple-light-gray: #F2F2F7;
+            --apple-dark: #1C1C1E;
+            --apple-green: #34C759;
+            --apple-orange: #FF9500;
+            --apple-purple: #AF52DE;
+        }
+        
+        .apple-gradient {
+            background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+        }
+        
+        .game-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 122, 255, 0.2);
+        }
+        
+        .game-iframe {
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover {
+            background: rgba(0, 122, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .nav-item.active {
+            background: var(--apple-blue);
+            color: white;
+        }
+        
+        .mobile-menu {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                position: fixed;
+                z-index: 1000;
+                height: 100vh;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .main-content {
+                margin-left: 0 !important;
+            }
+        }
+        body {
+            margin: 0;
+            background: #faf8f0;
+        }
+        .navbar {
+            width: auto;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            background: #faf8f0;
+            padding-top: 2.2rem;
+            padding-left: 3.5rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            background: transparent !important;
+            border-radius: 20px;
+            padding: 0.2em 1.7em 0.2em 1.2em;
+            position: relative;
+            box-shadow: none !important;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .navbar-inner:hover {
+            background: #d6cfc2 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+        }
+        .menu-icon {
+            font-size: 2.2rem;
+            margin-right: 0.7rem;
+            color: #8d8374;
+            font-weight: bold;
+            user-select: none;
+        }
+        .navbar-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #7a6a58;
+            letter-spacing: 0.5px;
+            line-height: 1;
+            text-decoration: none;
+        }
+        .dropdown-menu {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 3.5rem;
+            left: 0;
+            background: #f5f1ea;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            min-width: 160px;
+            padding: 0.7em 0;
+            z-index: 100;
+        }
+        .dropdown-menu a {
+            color: #7a6a58;
+            text-decoration: none;
+            padding: 0.7em 1.5em;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: background 0.2s;
+            border-radius: 8px;
+        }
+        .dropdown-menu a:hover {
+            background: #e0d7c6;
+        }
+        .dropdown-menu.show {
+            display: flex;
+        }
+        @media (max-width: 600px) {
+            .navbar { padding-top: 1rem; padding-left: 0.5rem; }
+            .navbar-inner { padding: 0.1em 0.9em 0.1em 0.5em; }
+            .navbar-title { font-size: 1.7rem; }
+            .menu-icon { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" style="text-decoration:none;display:flex;align-items:center;">
+        <span class="menu-icon" id="menuIcon">&#9776;</span>
+        <span class="navbar-title">24682048</span>
+      </a>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="how-to-play.html">How to Play</a>
+        <a href="faq.html">FAQ</a>
+        <a href="about.html">About Us</a>
+      </div>
+    </div>
+  </nav>
+    <iframe 
+        src="https://poweroftwo.nemoidstudio.com/"
+        class="game-fullscreen"
+        allowfullscreen>
+    </iframe>
+
+    <script>
+        function showGame(idx) {
+            const iframes = document.querySelectorAll('.game-fullscreen');
+            const btns = document.querySelectorAll('.game-tab-btn');
+            iframes.forEach((el, i) => el.classList.toggle('active', i === idx));
+            btns.forEach((el, i) => el.classList.toggle('active', i === idx));
+        }
+        
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(event.target) && 
+                !mobileMenu.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+
+        function toggleMenu() {
+            var menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('show');
+        }
+        document.addEventListener('click', function(e) {
+            var menu = document.getElementById('dropdownMenu');
+            var icon = document.querySelector('.menu-icon');
+            if (!menu.contains(e.target) && !icon.contains(e.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Dropdown menu logic
+        const menuIcon = document.getElementById('menuIcon');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        menuIcon.addEventListener('click', function(e) {
+          e.preventDefault();
+          dropdownMenu.classList.toggle('show');
+        });
+        document.addEventListener('click', function(e) {
+          if (!dropdownMenu.contains(e.target) && e.target !== menuIcon) {
+            dropdownMenu.classList.remove('show');
+          }
+        });
+    </script>
+</body>
+</html>
