@@ -73,5 +73,17 @@
     <h2>What's the difference between 2468 and 2048?</h2>
     <p>2468 is a variant of 2048 with different number sequences and sometimes new rules. Both are fun number puzzles!</p>
   </div>
+  <script>
+    document.addEventListener('click', function(e) {
+      var menu = document.getElementById('dropdownMenu');
+      var icon = document.querySelector('.menu-icon');
+      if (!menu.contains(e.target) && !icon.contains(e.target)) {
+        menu.classList.remove('show');
+      }
+    });
+  </script>
+  <footer style="text-align: center; padding: 20px; color: #7a6a58;">
+    <p>Play the best 2468 and 2048 number puzzle games online. Challenge your brain with 2468, a fun twist on the classic 2048 game.</p>
+  </footer>
 </body>
 </html>

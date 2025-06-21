@@ -66,5 +66,17 @@
     <p>This site is dedicated to providing the best 2468 and 2048 number puzzle games online for free. Enjoy smooth gameplay and challenge yourself to reach the 2468 tile!</p>
     <p>Contact: <a href="mailto:info@2468game.online">info@2468game.online</a></p>
   </div>
+  <script>
+    document.addEventListener('click', function(e) {
+      var menu = document.getElementById('dropdownMenu');
+      var icon = document.querySelector('.menu-icon');
+      if (!menu.contains(e.target) && !icon.contains(e.target)) {
+        menu.classList.remove('show');
+      }
+    });
+  </script>
+  <footer style="text-align: center; padding: 20px; color: #7a6a58;">
+    <p>Play the best 2468 and 2048 number puzzle games online. Challenge your brain with 2468, a fun twist on the classic 2048 game.</p>
+  </footer>
 </body>
 </html>
