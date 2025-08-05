@@ -1,7 +1,10 @@
+# General rules
 User-agent: *
+Disallow: /admin/
+Disallow: /include/
 Allow: /
 
-# Allow AI crawlers
+# AI Crawler Friendly Configuration
 User-agent: GPTBot
 Allow: /
 
@@ -50,5 +53,6 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-# Sitemap
-Sitemap: https://www.2468game.online/sitemap.xml 
+# Sitemaps
+Sitemap: https://www.2468game.online/sitemap.xml
+Sitemap: https://www.2468game.online/sitemap.txt 

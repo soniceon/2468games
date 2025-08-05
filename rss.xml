@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>2468 Game Online - Free Number Puzzle Games</title>
     <link>https://www.2468game.online/</link>
     <description>Play the best 2468 and 2048 number puzzle games online for free. Challenge your brain with smooth gameplay!</description>
     <language>en</language>
     <lastBuildDate>Mon, 27 Jan 2025 12:00:00 GMT</lastBuildDate>
+    <atom:link href="https://www.2468game.online/rss.xml" rel="self" type="application/rss+xml" />
+    <link>https://www.2468game.online/</link>
     <item>
       <title>2468 Game Online - Free Number Puzzle Games</title>
       <link>https://www.2468game.online/</link>
