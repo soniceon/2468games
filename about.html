@@ -54,19 +54,60 @@
     .navbar-inner {
       display: flex;
       align-items: center;
-      background: #d6cfc2;
+      background: transparent !important;
       border-radius: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       padding: 0.2em 1.7em 0.2em 1.2em;
       position: relative;
+      box-shadow: none !important;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .navbar-inner:hover {
+      background: #d6cfc2 !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    }
+    .menu-icon {
+      font-size: 2.2rem;
+      margin-right: 0.7rem;
+      color: #8d8374;
+      font-weight: bold;
+      user-select: none;
+      cursor: pointer;
     }
     .navbar-title {
       font-size: 3rem;
       font-weight: bold;
       color: #7a6a58;
-      letter-spacing: 2px;
+      letter-spacing: 0.5px;
       line-height: 1;
       text-decoration: none;
+    }
+    .dropdown-menu {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 3.5rem;
+      left: 0;
+      background: #f5f1ea;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      min-width: 160px;
+      padding: 0.7em 0;
+      z-index: 100;
+    }
+    .dropdown-menu a {
+      color: #7a6a58;
+      text-decoration: none;
+      padding: 0.7em 1.5em;
+      font-size: 1.1rem;
+      font-weight: 500;
+      transition: background 0.2s;
+      border-radius: 8px;
+    }
+    .dropdown-menu a:hover {
+      background: #e0d7c6;
+    }
+    .dropdown-menu.show {
+      display: flex;
     }
     .container { max-width: 700px; margin: 6rem auto 2rem auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 2rem; }
     a { color: #7a6a58; text-decoration: none; }
@@ -74,6 +115,7 @@
       .navbar { padding-top: 1rem; padding-left: 0.5rem; }
       .navbar-inner { padding: 0.1em 0.9em 0.1em 0.5em; }
       .navbar-title { font-size: 1.7rem; }
+      .menu-icon { font-size: 1.2rem; }
     }
   </style>
 </head>
@@ -97,11 +139,18 @@
     <p>Contact: <a href="mailto:info@2468game.online">info@2468game.online</a></p>
   </div>
   <script>
+    // Dropdown menu logic
+    const menuIcon = document.getElementById('menuIcon');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    
+    menuIcon.addEventListener('click', function(e) {
+      e.preventDefault();
+      dropdownMenu.classList.toggle('show');
+    });
+    
     document.addEventListener('click', function(e) {
-      var menu = document.getElementById('dropdownMenu');
-      var icon = document.querySelector('.menu-icon');
-      if (!menu.contains(e.target) && !icon.contains(e.target)) {
-        menu.classList.remove('show');
+      if (!dropdownMenu.contains(e.target) && e.target !== menuIcon) {
+        dropdownMenu.classList.remove('show');
       }
     });
   </script>

@@ -81,6 +81,34 @@
       line-height: 1;
       text-decoration: none;
     }
+    .dropdown-menu {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 3.5rem;
+      left: 0;
+      background: #f5f1ea;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      min-width: 160px;
+      padding: 0.7em 0;
+      z-index: 100;
+    }
+    .dropdown-menu a {
+      color: #7a6a58;
+      text-decoration: none;
+      padding: 0.7em 1.5em;
+      font-size: 1.1rem;
+      font-weight: 500;
+      transition: background 0.2s;
+      border-radius: 8px;
+    }
+    .dropdown-menu a:hover {
+      background: #e0d7c6;
+    }
+    .dropdown-menu.show {
+      display: flex;
+    }
     .container { max-width: 700px; margin: 6rem auto 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 2rem; }
     ul { line-height: 2; }
     a { color: #7a6a58; text-decoration: none; }
@@ -88,6 +116,7 @@
       .navbar { padding-top: 1rem; padding-left: 0.5rem; }
       .navbar-inner { padding: 0.1em 0.9em 0.1em 0.5em; }
       .navbar-title { font-size: 1.7rem; }
+      .menu-icon { font-size: 1.2rem; }
     }
   </style>
 </head>
@@ -98,6 +127,12 @@
         <span class="menu-icon" id="menuIcon">&#9776;</span>
         <span class="navbar-title">24682048</span>
       </a>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="how-to-play.html">How to Play</a>
+        <a href="faq.html">FAQ</a>
+        <a href="about.html">About Us</a>
+        <a href="data.html">Statistics</a>
+      </div>
     </div>
   </nav>
   <div class="container">
@@ -112,12 +147,19 @@
     </ul>
   </div>
   <script>
+    // Dropdown menu logic
+    const menuIcon = document.getElementById('menuIcon');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    
+    menuIcon.addEventListener('click', function(e) {
+      e.preventDefault();
+      dropdownMenu.classList.toggle('show');
+    });
+    
     document.addEventListener('click', function(e) {
-        var menu = document.getElementById('dropdownMenu');
-        var icon = document.querySelector('.menu-icon');
-        if (!menu.contains(e.target) && !icon.contains(e.target)) {
-            menu.classList.remove('show');
-        }
+      if (!dropdownMenu.contains(e.target) && e.target !== menuIcon) {
+        dropdownMenu.classList.remove('show');
+      }
     });
   </script>
   <footer style="text-align: center; padding: 20px; color: #7a6a58;">
