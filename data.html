@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Statistics & Leaderboard - 2468 Game Online</title>
+    <meta name="description" content="View game statistics, leaderboards, and performance data for 2468 and 2048 games">
+    <meta name="keywords" content="2468 game, statistics, leaderboard, scores, performance, game data">
+    <link rel="canonical" href="https://www.2468game.online/data.html">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #faf8f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 100px auto 20px auto;
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: visible;
+        }
+        .header {
+            background: #fff;
+            color: #7a6a58;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: #f8f6f0;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 122, 255, 0.2);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #7a6a58;
+            margin-bottom: 10px;
+        }
+        .stat-label {
+            color: #4a4e69;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .leaderboard-section {
+            background: #fff;
+            padding: 40px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .trophy-icon {
+            font-size: 1.5rem;
+        }
+        .leaderboard-table {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th {
+            background: #f8f6f0;
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: #7a6a58;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f3f4f6;
+            color: #4a4e69;
+        }
+        .table tr:hover {
+            background: #f8f6f0;
+        }
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .rank-1 { background: #fbbf24; color: #92400e; }
+        .rank-2 { background: #9ca3af; color: #374151; }
+        .rank-3 { background: #f59e0b; color: #92400e; }
+        .rank-other { background: #e5e7eb; color: #6b7280; }
+        .score-high {
+            color: #34C759;
+            font-weight: 600;
+        }
+        .score-medium {
+            color: #FF9500;
+            font-weight: 600;
+        }
+        .score-low {
+            color: #FF3B30;
+            font-weight: 600;
+        }
+        .game-modes {
+            background: #f0f8ff;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .mode-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .mode-card {
+            background: #f8f6f0;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        .mode-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #7a6a58;
+            margin-bottom: 15px;
+        }
+        .mode-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .mode-stat {
+            text-align: center;
+        }
+        .mode-stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #7a6a58;
+        }
+        .mode-stat-label {
+            font-size: 0.9rem;
+            color: #4a4e69;
+            margin-top: 5px;
+        }
+        .achievements {
+            background: #fff5f5;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+        .achievement-card {
+            background: #f8f6f0;
+            padding: 25px 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 122, 255, 0.2);
+        }
+        .achievement-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .achievement-title {
+            font-weight: 600;
+            color: #7a6a58;
+            margin-bottom: 8px;
+        }
+        .achievement-desc {
+            font-size: 0.9rem;
+            color: #4a4e69;
+        }
+        .achievement-unlocked {
+            background: #f8f6f0;
+            border: 2px solid #34C759;
+        }
+        .achievement-locked {
+            background: #f3f4f6;
+            border: 2px solid #d1d5db;
+            opacity: 0.7;
+        }
+        
+        /* Navigation Styles */
+        .navbar {
+            width: auto;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            background: #faf8f0;
+            padding-top: 2.2rem;
+            padding-left: 3.5rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            background: transparent !important;
+            border-radius: 20px;
+            padding: 0.2em 1.7em 0.2em 1.2em;
+            position: relative;
+            box-shadow: none !important;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .navbar-inner:hover {
+            background: #d6cfc2 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+        }
+        .menu-icon {
+            font-size: 2.2rem;
+            margin-right: 0.7rem;
+            color: #8d8374;
+            font-weight: bold;
+            user-select: none;
+        }
+        .navbar-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #7a6a58;
+            letter-spacing: 0.5px;
+            line-height: 1;
+            text-decoration: none;
+        }
+        .dropdown-menu {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 3.5rem;
+            left: 0;
+            background: #f5f1ea;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            min-width: 160px;
+            padding: 0.7em 0;
+            z-index: 100;
+        }
+        .dropdown-menu a {
+            color: #7a6a58;
+            text-decoration: none;
+            padding: 0.7em 1.5em;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: background 0.2s;
+            border-radius: 8px;
+        }
+        .dropdown-menu a:hover {
+            background: #e0d7c6;
+        }
+        .dropdown-menu.show {
+            display: flex;
+        }
+        @media (max-width: 600px) {
+            .navbar { padding-top: 1rem; padding-left: 0.5rem; }
+            .navbar-inner { padding: 0.1em 0.9em 0.2em 0.5em; }
+            .navbar-title { font-size: 1.7rem; }
+            .menu-icon { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" style="text-decoration:none;display:flex;align-items:center;">
+                <span class="menu-icon" id="menuIcon">&#9776;</span>
+                <span class="navbar-title">24682048</span>
+            </a>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="how-to-play.html">How to Play</a>
+                <a href="faq.html">FAQ</a>
+                <a href="about.html">About Us</a>
+                <a href="data.html">Statistics</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="text-3xl font-bold mb-2">Game Statistics & Leaderboard</h1>
+            <p class="text-lg opacity-90">Track your progress and compete with players worldwide</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">1,247</div>
+                <div class="stat-label">Total Players</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">89,456</div>
+                <div class="stat-label">Games Played</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2,468</div>
+                <div class="stat-label">Highest Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">156</div>
+                <div class="stat-label">Active Today</div>
+            </div>
+        </div>
+
+        <div class="leaderboard-section">
+            <div class="section-title">
+                <span class="trophy-icon">🏆</span>
+                Global Leaderboard
+            </div>
+            
+            <div class="leaderboard-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Score</th>
+                            <th>Game Mode</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="rank-badge rank-1">1</span></td>
+                            <td>GameMaster2024</td>
+                            <td class="score-high">2,468</td>
+                            <td>2468 Mode</td>
+                            <td>2025-01-27</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge rank-2">2</span></td>
+                            <td>PuzzlePro</td>
+                            <td class="score-high">2,048</td>
+                            <td>2048 Mode</td>
+                            <td>2025-01-26</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge rank-3">3</span></td>
+                            <td>BrainTrainer</td>
+                            <td class="score-medium">1,024</td>
+                            <td>2048 Mode</td>
+                            <td>2025-01-25</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge rank-other">4</span></td>
+                            <td>NumberNinja</td>
+                            <td class="score-medium">512</td>
+                            <td>2468 Mode</td>
+                            <td>2025-01-24</td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-badge rank-other">5</span></td>
+                            <td>LogicLover</td>
+                            <td class="score-low">256</td>
+                            <td>2048 Mode</td>
+                            <td>2025-01-23</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="game-modes">
+            <div class="section-title">
+                <span class="trophy-icon">🎮</span>
+                Game Mode Statistics
+            </div>
+            
+            <div class="mode-grid">
+                <div class="mode-card">
+                    <div class="mode-title">2468 Mode</div>
+                    <div class="mode-stats">
+                        <div class="mode-stat">
+                            <div class="mode-stat-number">45,678</div>
+                            <div class="mode-stat-label">Games Played</div>
+                        </div>
+                        <div class="mode-stat">
+                            <div class="mode-stat-number">2,468</div>
+                            <div class="mode-stat-label">Best Score</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mode-card">
+                    <div class="mode-title">2048 Mode</div>
+                    <div class="mode-stats">
+                        <div class="mode-stat">
+                            <div class="mode-stat-number">43,778</div>
+                            <div class="mode-stat-label">Games Played</div>
+                        </div>
+                        <div class="mode-stat">
+                            <div class="mode-stat-number">2,048</div>
+                            <div class="mode-stat-label">Best Score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="achievements">
+            <div class="section-title">
+                <span class="trophy-icon">🏅</span>
+                Achievements
+            </div>
+            
+            <div class="achievement-grid">
+                <div class="achievement-card achievement-unlocked">
+                    <div class="achievement-icon">🎯</div>
+                    <div class="achievement-title">First Steps</div>
+                    <div class="achievement-desc">Complete your first game</div>
+                </div>
+                
+                <div class="achievement-card achievement-unlocked">
+                    <div class="achievement-icon">🔥</div>
+                    <div class="achievement-title">Hot Streak</div>
+                    <div class="achievement-desc">Win 5 games in a row</div>
+                </div>
+                
+                <div class="achievement-card achievement-unlocked">
+                    <div class="achievement-icon">💎</div>
+                    <div class="achievement-title">Diamond Player</div>
+                    <div class="achievement-desc">Reach score 1024</div>
+                </div>
+                
+                <div class="achievement-card achievement-locked">
+                    <div class="achievement-icon">👑</div>
+                    <div class="achievement-title">Game Master</div>
+                    <div class="achievement-desc">Reach score 2048</div>
+                </div>
+                
+                <div class="achievement-card achievement-locked">
+                    <div class="achievement-icon">🌟</div>
+                    <div class="achievement-title">Ultimate Champion</div>
+                    <div class="achievement-desc">Reach score 2468</div>
+                </div>
+                
+                <div class="achievement-card achievement-locked">
+                    <div class="achievement-icon">🚀</div>
+                    <div class="achievement-title">Speed Demon</div>
+                    <div class="achievement-desc">Complete game in under 5 minutes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 20px; color: #7a6a58; background: #faf8f0; margin-top: 40px;">
+        <p>Play the best 2468 and 2048 number puzzle games online. Challenge your brain with 2468, a fun twist on the classic 2048 game.</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">© 2025 2468 Game Online - Free Number Puzzle Games</p>
+    </footer>
+
+    <script>
+        // Add interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation menu functionality
+            const menuIcon = document.getElementById('menuIcon');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            
+            menuIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                dropdownMenu.classList.toggle('show');
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!dropdownMenu.contains(e.target) && e.target !== menuIcon) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+
+            // Table row hover effects
+            const tableRows = document.querySelectorAll('.table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f9fafb';
+                });
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+
+            // Achievement cards click effect
+            const achievementCards = document.querySelectorAll('.achievement-card');
+            achievementCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    if (this.classList.contains('achievement-unlocked')) {
+                        this.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            this.style.transform = '';
+                        }, 200);
+                    }
+                });
+            });
+
+            // Animate stats on scroll
+            const observerOptions = {
+                threshold: 0.5,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.stat-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html> 

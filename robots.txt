@@ -3,55 +3,85 @@ User-agent: *
 Disallow: /admin/
 Disallow: /include/
 Allow: /
+Crawl-delay: 1
 
 # AI Crawler Friendly Configuration
 User-agent: GPTBot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Baiduspider
 Allow: /
+Crawl-delay: 2
 
 User-agent: YandexBot
 Allow: /
+Crawl-delay: 1
 
 User-agent: DuckDuckGoBot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Slurp
 Allow: /
+Crawl-delay: 1
 
 User-agent: ChatGPT-User
 Allow: /
+Crawl-delay: 1
 
 User-agent: OpenAI
 Allow: /
+Crawl-delay: 1
 
 User-agent: Claude
 Allow: /
+Crawl-delay: 1
 
 User-agent: PerplexityBot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Applebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Amazonbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bytespider
 Allow: /
+Crawl-delay: 2
 
 User-agent: CCBot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Google-Extended
 Allow: /
+Crawl-delay: 1
+
+# Additional search engines
+User-agent: AhrefsBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: SemrushBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: MJ12bot
+Allow: /
+Crawl-delay: 2
 
 # Sitemaps
 Sitemap: https://www.2468game.online/sitemap.xml

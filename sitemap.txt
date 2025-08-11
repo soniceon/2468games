@@ -2,4 +2,8 @@ https://www.2468game.online/
 https://www.2468game.online/index.html
 https://www.2468game.online/how-to-play.html
 https://www.2468game.online/faq.html
-https://www.2468game.online/about.html 
+https://www.2468game.online/about.html
+https://www.2468game.online/data.html
+https://www.2468game.online/404.html
+https://www.2468game.online/500.html
+https://www.2468game.online/generate-icons.html 

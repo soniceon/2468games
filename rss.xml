@@ -68,5 +68,17 @@
         <p>Contact: <a href="mailto:info@2468game.online">info@2468game.online</a></p>
       ]]></content:encoded>
     </item>
+    <item>
+      <title>Game Statistics & Leaderboard - 2468 Game Online</title>
+      <link>https://www.2468game.online/data.html</link>
+      <description>View game statistics, leaderboards, and performance data for 2468 and 2048 games</description>
+      <pubDate>Mon, 27 Jan 2025 12:00:00 GMT</pubDate>
+      <guid>https://www.2468game.online/data.html</guid>
+      <content:encoded><![CDATA[
+        <h1>Game Statistics & Leaderboard</h1>
+        <p>Track your progress and compete with players worldwide</p>
+        <p>View global leaderboards, game mode statistics, and unlock achievements in 2468 and 2048 games.</p>
+      ]]></content:encoded>
+    </item>
   </channel>
 </rss> 
