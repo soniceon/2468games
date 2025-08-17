@@ -302,9 +302,44 @@
             </div>
         </div>
         
-        <div class="game-board-container">
-            <div class="game-board" id="game-board">
-                <!-- 游戏格子将通过JavaScript生成 -->
+        <div class="game-main-content">
+            <div class="game-board-container">
+                <div class="game-board" id="game-board">
+                    <!-- 游戏格子将通过JavaScript生成 -->
+                </div>
+            </div>
+            
+            <!-- 排行榜 -->
+            <div class="leaderboard-container">
+                <h3 class="leaderboard-title">🏆 Leaderboard</h3>
+                <div class="leaderboard-tabs">
+                    <button class="tab-btn active" data-tab="global">Global</button>
+                    <button class="tab-btn" data-tab="daily">Daily</button>
+                </div>
+                
+                <div class="leaderboard-content">
+                    <div class="tab-content active" id="global-tab">
+                        <div class="leaderboard-list" id="global-leaderboard">
+                            <!-- 排行榜数据将通过JavaScript生成 -->
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="friends-tab">
+                        <div class="leaderboard-list" id="friends-leaderboard">
+                            <!-- 好友排行榜数据 -->
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="daily-tab">
+                        <div class="leaderboard-list" id="daily-leaderboard">
+                            <!-- 每日排行榜数据 -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="leaderboard-actions">
+                    <button id="refresh-leaderboard-btn" class="refresh-btn">Refresh</button>
+                </div>
             </div>
         </div>
         
@@ -327,6 +362,232 @@
             min-height: 100vh;
             position: relative;
             z-index: 1;
+        }
+        
+        .game-main-content {
+            display: block;
+            text-align: center;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        .game-board-container {
+            display: inline-block;
+            margin: 0 auto;
+        }
+        
+        .leaderboard-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 380px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 0;
+            z-index: 1000;
+        }
+        
+        .leaderboard-title {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #7a6a58;
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        .leaderboard-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .tab-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 14px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background: #8f7a66;
+            color: white;
+        }
+        
+        .tab-btn:hover:not(.active) {
+            background: #e0e0e0;
+        }
+        
+        .leaderboard-content {
+            margin-bottom: 10px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .leaderboard-list {
+            /* 移除高度限制和滚动条 */
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 6px;
+            margin-bottom: 3px;
+            background: #f8f6f0;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .leaderboard-item:hover {
+            transform: translateX(3px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .leaderboard-item.rank-1 {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border: 2px solid #ffb300;
+        }
+        
+        .leaderboard-item.rank-2 {
+            background: linear-gradient(135deg, #c0c0c0 0%, #e0e0e0 100%);
+            border: 2px solid #a0a0a0;
+        }
+        
+        .leaderboard-item.rank-3 {
+            background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+            border: 2px solid #b8860b;
+        }
+        
+        .rank-number {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #7a6a58;
+            min-width: 25px;
+            text-align: center;
+        }
+        
+        .rank-1 .rank-number {
+            color: #b8860b;
+        }
+        
+        .rank-2 .rank-number {
+            color: #696969;
+        }
+        
+        .rank-3 .rank-number {
+            color: #8b4513;
+        }
+        
+        .player-info {
+            flex: 1;
+            margin-left: 8px;
+        }
+        
+        .player-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #7a6a58;
+            margin-bottom: 1px;
+        }
+        
+        .player-score {
+            font-size: 10px;
+            color: #8f7a66;
+            font-weight: 500;
+        }
+        
+        .game-mode {
+            font-size: 9px;
+            color: #999;
+            margin-top: 1px;
+        }
+        
+        .score-value {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #7a6a58;
+            margin-left: auto;
+            padding-left: 8px;
+        }
+        
+        .leaderboard-actions {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        
+        .submit-score-btn, .refresh-btn, .clear-sample-btn {
+            background: #8f7a66;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 14px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-score-btn:hover, .refresh-btn:hover, .clear-sample-btn:hover {
+            background: #7f6a56;
+            transform: translateY(-2px);
+        }
+        
+        .submit-score-btn:active, .refresh-btn:active, .clear-sample-btn:active {
+            transform: translateY(0);
+        }
+        
+        .clear-sample-btn {
+            background: #e74c3c;
+        }
+        
+        .clear-sample-btn:hover {
+            background: #c0392b;
+        }
+        
+
+        
+
+        
+        .empty-leaderboard {
+            text-align: center;
+            padding: 30px 15px;
+            color: #999;
+        }
+        
+        .empty-leaderboard .icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+        
+        .empty-leaderboard h4 {
+            margin: 0 0 8px 0;
+            color: #7a6a58;
+            font-size: 1rem;
+        }
+        
+        .empty-leaderboard p {
+            margin: 0;
+            font-size: 12px;
         }
         
         .game-header {
@@ -508,6 +769,55 @@
                 flex-direction: column;
                 gap: 15px;
             }
+            
+            .leaderboard-container {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                width: auto;
+            }
+            
+            .leaderboard-tabs {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .tab-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+            
+            .leaderboard-item {
+                padding: 10px;
+            }
+            
+            .player-name {
+                font-size: 14px;
+            }
+            
+            .score-value {
+                font-size: 1rem;
+            }
+            
+            .leaderboard-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .submit-score-btn, .refresh-btn, .clear-sample-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+        
+        @media (max-width: 1000px) {
+            .leaderboard-container {
+                position: fixed;
+                top: 15px;
+                right: 15px;
+                width: 300px;
+            }
         }
     </style>
 
@@ -562,12 +872,18 @@
                     touchEvents++;
                 });
 
+                // 检测键盘事件
+                let keyEvents = 0;
+                document.addEventListener('keydown', () => {
+                    keyEvents++;
+                });
+
                 // 延迟检测，给真实用户时间进行交互
                 setTimeout(() => {
                     const timeSinceLastMouse = Date.now() - lastMouseTime;
                     const isSuspicious = (
                         isBot || 
-                        (mouseMovements < 3 && timeSinceLastMouse > 10000) ||
+                        (mouseMovements < 1 && keyEvents < 1 && timeSinceLastMouse > 20000) ||
                         (screenWidth === 0 || screenHeight === 0) ||
                         (viewportWidth === 0 || viewportHeight === 0)
                     );
@@ -576,7 +892,7 @@
                         console.warn('Suspicious activity detected');
                         this.blockAccess();
                     }
-                }, 5000);
+                }, 10000); // 增加到10秒，给用户更多时间
             }
 
             setupRateLimiting() {
@@ -1322,6 +1638,11 @@
                 if (this.isGameOver()) {
                     this.gameOver = true;
                     this.showMessage('Game Over!', 'game-over');
+                    
+                    // 游戏结束时自动检查分数是否可以进入排行榜
+                    setTimeout(() => {
+                        this.checkScoreForLeaderboard();
+                    }, 1000); // 延迟1秒，让用户看到游戏结束消息
                 }
 
                 // 更新最高分
@@ -1376,16 +1697,421 @@
                 this.currentMode = mode;
                 this.newGame();
             }
+
+            checkScoreForLeaderboard() {
+                // 检查分数是否可以进入排行榜
+                const shouldEnterLeaderboard = this.checkIfScoreQualifies(this.score);
+                
+                if (shouldEnterLeaderboard) {
+                    // 显示输入姓名提示，防止输入网址
+                    let playerName = '';
+                    let isValidName = false;
+                    
+                    while (!isValidName) {
+                        playerName = prompt('🎉 Congratulations! Your score qualifies for the leaderboard!\n\nEnter your name (max 10 characters, no URLs allowed):') || 'Anonymous';
+                        
+                        if (playerName === null) {
+                            // 用户取消输入
+                            return;
+                        }
+                        
+                        // 检查是否包含网址
+                        if (isValidPlayerName(playerName)) {
+                            isValidName = true;
+                        } else {
+                            alert('❌ Invalid name! Please enter a real name without URLs or special characters.');
+                        }
+                    }
+                    
+                    const trimmedName = playerName.trim().substring(0, 10);
+
+                    // 创建分数记录
+                    const scoreRecord = {
+                        rank: 0,
+                        name: trimmedName,
+                        score: this.score,
+                        gameMode: getGameModeDisplayName(this.currentMode),
+                        date: new Date().toLocaleDateString()
+                    };
+
+                    // 保存到本地存储
+                    saveScoreToLeaderboard(scoreRecord);
+
+                    // 刷新排行榜显示
+                    const activeTab = document.querySelector('.tab-btn.active')?.dataset.tab || 'global';
+                    loadLeaderboardData(activeTab);
+
+                    alert(`🎊 Amazing! You're now on the leaderboard!\nPlayer: ${trimmedName}\nScore: ${this.score.toLocaleString()}\nGame Mode: ${scoreRecord.gameMode}`);
+                }
+            }
+
+            checkIfScoreQualifies(score) {
+                const globalLeaderboard = JSON.parse(localStorage.getItem('leaderboard_global')) || [];
+                
+                if (globalLeaderboard.length < 10) {
+                    return true; // 排行榜未满时，任何分数都可以进入
+                }
+                
+                // 检查是否超过第10名的分数
+                const lowestScore = globalLeaderboard[globalLeaderboard.length - 1].score;
+                return score > lowestScore;
+            }
         }
 
         // 初始化游戏
+        let gameInstance;
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                const game = new Game2048();
+                gameInstance = new Game2048();
             } catch (error) {
                 console.error('Error initializing game:', error);
             }
+            
+            // 初始化排行榜
+            initLeaderboard();
         });
+        
+        // 排行榜功能
+        function initLeaderboard() {
+            // 标签页切换
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetTab = btn.dataset.tab;
+                    
+                    // 更新按钮状态
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // 更新内容显示
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `${targetTab}-tab`) {
+                            content.classList.add('active');
+                        }
+                    });
+                    
+                    // 加载对应排行榜数据
+                    loadLeaderboardData(targetTab);
+                });
+            });
+
+            // 添加按钮事件监听器
+            const submitScoreBtn = document.getElementById('submit-score-btn');
+            const refreshBtn = document.getElementById('refresh-leaderboard-btn');
+            const clearSampleBtn = document.getElementById('clear-sample-btn');
+
+            if (submitScoreBtn) {
+                submitScoreBtn.addEventListener('click', checkAndUpdateLeaderboard);
+            }
+
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', () => {
+                    const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+                    loadLeaderboardData(activeTab);
+                });
+            }
+
+            if (clearSampleBtn) {
+                clearSampleBtn.addEventListener('click', clearSampleData);
+            }
+            
+
+            
+
+            
+            // 初始化加载全球排行榜
+            loadLeaderboardData('global');
+        }
+        
+        function loadLeaderboardData(type) {
+            const leaderboardElement = document.getElementById(`${type}-leaderboard`);
+            
+            // 从本地存储获取数据
+            let leaderboardData = JSON.parse(localStorage.getItem(`leaderboard_${type}`)) || [];
+            
+            // 只在第一次加载且没有真实数据时生成示例数据
+            if (leaderboardData.length === 0 && !localStorage.getItem(`sample_data_generated_${type}`)) {
+                // 生成示例数据
+                leaderboardData = generateSampleData(type);
+                localStorage.setItem(`leaderboard_${type}`, JSON.stringify(leaderboardData));
+                localStorage.setItem(`sample_data_generated_${type}`, 'true');
+            }
+            
+            // 按分数排序
+            leaderboardData.sort((a, b) => b.score - a.score);
+            
+            // 渲染排行榜
+            renderLeaderboard(leaderboardElement, leaderboardData);
+        }
+        
+        function generateSampleData(type) {
+            const sampleData = [];
+            
+            // 更真实的游戏模式分布
+            const gameModes = {
+                'classic': 'Classic 2048',
+                '3x3': '3x3 Grid', 
+                '5x5': '5x5 Grid',
+                'fibonacci': 'Fibonacci',
+                'powers3': 'Powers of 3',
+                'powers5': 'Powers of 5',
+                'reverse': 'Reverse 2048',
+                'merge3': 'Merge 3 Tiles'
+            };
+            
+            // 更真实的玩家名称
+            const playerNames = [
+                'Alex', 'Sarah', 'Mike', 'Emma', 'David', 'Lisa', 'John', 'Anna', 'Tom', 'Sophie',
+                'Chris', 'Maria', 'Ryan', 'Julia', 'Kevin', 'Rachel', 'Steve', 'Nina', 'Paul', 'Maya'
+            ];
+            
+            // 根据排行榜类型生成不同的数据
+            if (type === 'global') {
+                // 全球排行榜 - 高分玩家
+                const highScores = [
+                    { name: 'Alex', score: 15680, mode: 'classic', daysAgo: 2 },
+                    { name: 'Sarah', score: 14230, mode: '5x5', daysAgo: 1 },
+                    { name: 'Mike', score: 13890, mode: 'fibonacci', daysAgo: 3 },
+                    { name: 'Emma', score: 12560, mode: '3x3', daysAgo: 5 },
+                    { name: 'David', score: 11870, mode: 'powers3', daysAgo: 1 },
+                    { name: 'Lisa', score: 11240, mode: 'reverse', daysAgo: 4 },
+                    { name: 'John', score: 10890, mode: 'merge3', daysAgo: 2 },
+                    { name: 'Anna', score: 10230, mode: 'classic', daysAgo: 6 },
+                    { name: 'Tom', score: 9870, mode: '5x5', daysAgo: 3 },
+                    { name: 'Sophie', score: 9450, mode: 'fibonacci', daysAgo: 7 }
+                ];
+                
+                highScores.forEach((player, index) => {
+                    sampleData.push({
+                        rank: index + 1,
+                        name: player.name,
+                        score: player.score,
+                        gameMode: gameModes[player.mode],
+                        date: new Date(Date.now() - player.daysAgo * 24 * 60 * 60 * 1000).toLocaleDateString()
+                    });
+                });
+                
+            } else if (type === 'daily') {
+                // 每日排行榜 - 今天的活跃玩家
+                const dailyScores = [
+                    { name: 'Chris', score: 8920, mode: 'classic' },
+                    { name: 'Maria', score: 8450, mode: '3x3' },
+                    { name: 'Ryan', score: 7980, mode: '5x5' },
+                    { name: 'Julia', score: 7560, mode: 'fibonacci' },
+                    { name: 'Kevin', score: 7230, mode: 'powers3' },
+                    { name: 'Rachel', score: 6890, mode: 'reverse' },
+                    { name: 'Steve', score: 6540, mode: 'merge3' },
+                    { name: 'Nina', score: 6210, mode: 'classic' }
+                ];
+                
+                dailyScores.forEach((player, index) => {
+                    sampleData.push({
+                        rank: index + 1,
+                        name: player.name,
+                        score: player.score,
+                        gameMode: gameModes[player.mode],
+                        date: new Date().toLocaleDateString()
+                    });
+                });
+                
+            } else if (type === 'friends') {
+                // 好友排行榜 - 朋友间的竞争
+                const friendsScores = [
+                    { name: 'Alex', score: 13450, mode: 'classic', daysAgo: 1 },
+                    { name: 'Sarah', score: 12890, mode: '5x5', daysAgo: 2 },
+                    { name: 'Mike', score: 12120, mode: 'fibonacci', daysAgo: 1 },
+                    { name: 'Emma', score: 11560, mode: '3x3', daysAgo: 3 },
+                    { name: 'David', score: 10980, mode: 'powers3', daysAgo: 2 },
+                    { name: 'Lisa', score: 10340, mode: 'reverse', daysAgo: 1 },
+                    { name: 'John', score: 9870, mode: 'merge3', daysAgo: 4 }
+                ];
+                
+                friendsScores.forEach((player, index) => {
+                    sampleData.push({
+                        rank: index + 1,
+                        name: player.name,
+                        score: player.score,
+                        gameMode: gameModes[player.mode],
+                        date: new Date(Date.now() - player.daysAgo * 24 * 60 * 60 * 1000).toLocaleDateString()
+                    });
+                });
+            }
+            
+            return sampleData;
+        }
+        
+        function renderLeaderboard(container, data) {
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-leaderboard">
+                        <div class="icon">🏆</div>
+                        <h4>No ranking data</h4>
+                        <p>Be the first player to submit a score!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = data.map((player, index) => {
+                const rankClass = index < 3 ? `rank-${index + 1}` : '';
+                const medal = index < 3 ? ['🥇', '🥈', '🥉'][index] : '';
+                
+                return `
+                    <div class="leaderboard-item ${rankClass}">
+                        <div class="rank-number">${medal || (index + 1)}</div>
+                        <div class="player-info">
+                            <div class="player-name">${player.name}</div>
+                            <div class="player-score">${player.gameMode}</div>
+                            <div class="game-mode">${player.date}</div>
+                        </div>
+                        <div class="score-value">${player.score.toLocaleString()}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+
+        
+        function checkAndUpdateLeaderboard() {
+    if (gameInstance) {
+        // 使用游戏实例的方法自动检查分数
+        gameInstance.checkScoreForLeaderboard();
+    } else {
+        alert('Game not initialized yet. Please wait a moment and try again.');
+    }
+}
+        
+
+        
+        function getMinimumScoreForLeaderboard() {
+            const globalLeaderboard = JSON.parse(localStorage.getItem('leaderboard_global')) || [];
+            
+            if (globalLeaderboard.length === 0) {
+                return 1000; // 默认最低分数
+            }
+            
+            if (globalLeaderboard.length < 10) {
+                return 1000; // 排行榜未满时
+            }
+            
+            // 返回第10名的分数
+            return globalLeaderboard[globalLeaderboard.length - 1].score;
+        }
+
+        function isValidPlayerName(name) {
+            if (!name || name.trim().length === 0) return false;
+            
+            // 检查是否包含网址模式
+            const urlPatterns = [
+                /https?:\/\//i,           // http:// 或 https://
+                /www\./i,                  // www.
+                /\.com/i,                  // .com
+                /\.org/i,                  // .org
+                /\.net/i,                  // .net
+                /\.cn/i,                   // .cn
+                /\.qq\.com/i,              // .qq.com
+                /\.baidu\.com/i,           // .baidu.com
+                /\.google\.com/i,          // .google.com
+                /\.github\.com/i,          // .github.com
+                /[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/i,  // 通用域名模式
+                /[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/,  // IP地址
+                /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/i  // 邮箱地址
+            ];
+            
+            // 检查是否包含特殊字符（只允许字母、数字、中文、空格、连字符、下划线）
+            const validNamePattern = /^[a-zA-Z\u4e00-\u9fa5\s\-_0-9]+$/;
+            
+            // 检查长度
+            if (name.trim().length > 20) return false;
+            
+            // 检查是否包含网址模式
+            for (const pattern of urlPatterns) {
+                if (pattern.test(name)) {
+                    return false;
+                }
+            }
+            
+            // 检查是否只包含有效字符
+            if (!validNamePattern.test(name)) {
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function getGameModeDisplayName(mode) {
+            const modeNames = {
+                'classic': 'Classic 2048',
+                '3x3': '3x3 Grid',
+                '5x5': '5x5 Grid',
+                'fibonacci': 'Fibonacci',
+                'powers3': 'Powers of 3',
+                'powers5': 'Powers of 5',
+                'reverse': 'Reverse 2048',
+                'merge3': 'Merge 3 Tiles'
+            };
+            return modeNames[mode] || mode;
+        }
+        
+        function clearSampleData() {
+            // 清除所有示例数据
+            localStorage.removeItem('leaderboard_global');
+            localStorage.removeItem('leaderboard_daily');
+            localStorage.removeItem('leaderboard_friends');
+            localStorage.removeItem('sample_data_generated_global');
+            localStorage.removeItem('sample_data_generated_daily');
+            localStorage.removeItem('sample_data_generated_friends');
+            localStorage.removeItem('real_data_started');
+            
+            // 刷新当前显示的排行榜
+            const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+            loadLeaderboardData(activeTab);
+            
+            alert('Sample data cleared successfully! Leaderboards are now empty and ready for real scores.');
+        }
+        
+        function saveScoreToLeaderboard(scoreRecord) {
+            // 当用户提交第一个真实分数时，清除示例数据
+            if (!localStorage.getItem('real_data_started')) {
+                localStorage.setItem('real_data_started', 'true');
+                // 清除所有示例数据标记
+                localStorage.removeItem('sample_data_generated_global');
+                localStorage.removeItem('sample_data_generated_daily');
+                localStorage.removeItem('sample_data_generated_friends');
+            }
+            
+            // Save to global leaderboard (top 10 only)
+            let globalLeaderboard = JSON.parse(localStorage.getItem('leaderboard_global')) || [];
+            globalLeaderboard.push(scoreRecord);
+            globalLeaderboard.sort((a, b) => b.score - a.score);
+            globalLeaderboard = globalLeaderboard.slice(0, 10); // Keep top 10 only
+            localStorage.setItem('leaderboard_global', JSON.stringify(globalLeaderboard));
+            
+            // Save to daily leaderboard
+            const today = new Date().toDateString();
+            let dailyLeaderboard = JSON.parse(localStorage.getItem('leaderboard_daily')) || [];
+            
+            // Remove old daily data
+            dailyLeaderboard = dailyLeaderboard.filter(record => {
+                const recordDate = new Date(record.date).toDateString();
+                return recordDate === today;
+            });
+            
+            dailyLeaderboard.push(scoreRecord);
+            dailyLeaderboard.sort((a, b) => b.score - a.score);
+            dailyLeaderboard = dailyLeaderboard.slice(0, 10); // Keep top 10 only
+            localStorage.setItem('leaderboard_daily', JSON.stringify(dailyLeaderboard));
+            
+            // Save to friends leaderboard (using local storage simulation)
+            let friendsLeaderboard = JSON.parse(localStorage.getItem('leaderboard_friends')) || [];
+            friendsLeaderboard.push(scoreRecord);
+            friendsLeaderboard.sort((a, b) => b.score - a.score);
+            friendsLeaderboard = friendsLeaderboard.slice(0, 10); // Keep top 10 only
+            localStorage.setItem('leaderboard_friends', JSON.stringify(friendsLeaderboard));
+        }
     </script>
     <!-- SEO Content Section -->
     <section style="background: #fff; padding: 40px 20px; margin-top: 20px;">
@@ -1433,6 +2159,7 @@
                     <li><strong>8 Game Modes:</strong> Classic 2048, 3x3 Grid, 5x5 Grid, Fibonacci, Powers of 3/5, Reverse 2048, and Merge 3 Tiles</li>
                     <li><strong>Smart Controls:</strong> Use arrow keys on desktop or swipe gestures on mobile</li>
                     <li><strong>Score Tracking:</strong> Keep track of your best scores and challenge yourself to improve</li>
+                    <li><strong>Leaderboard System:</strong> Compete with players worldwide with global, daily, and friends rankings</li>
                     <li><strong>Responsive Design:</strong> Perfect gameplay experience on any screen size</li>
                     <li><strong>No Registration:</strong> Start playing immediately without any sign-up required</li>
                     <li><strong>Local Storage:</strong> Your best scores are automatically saved in your browser</li>
@@ -1446,5 +2173,24 @@
         <p>Play the best 2468 and 2048 number puzzle games online. Challenge your brain with 2468, a fun twist on the classic 2048 game.</p>
         <p style="margin-top: 10px; font-size: 0.9rem;">© 2025 2468 Game Online - Free Number Puzzle Games</p>
     </footer>
+
+    <!-- 分数提交模态框 -->
+    <div id="score-modal" class="score-modal" style="display: none;">
+        <div class="score-modal-content">
+            <h3>Submit Score</h3>
+            <div class="score-info">
+                <p>Current Score: <span id="modal-score">0</span></p>
+                <p>Game Mode: <span id="modal-mode">Classic 2048</span></p>
+            </div>
+            <div class="name-input">
+                <label for="player-name-input">Enter your name (max 10 characters):</label>
+                <input type="text" id="player-name-input" maxlength="10" placeholder="Your name">
+            </div>
+            <div class="modal-actions">
+                <button id="submit-score-confirm" class="submit-btn">Submit</button>
+                <button id="cancel-score-submit" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
