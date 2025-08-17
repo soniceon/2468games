@@ -26,6 +26,30 @@
     ExpiresByType application/xml "access plus 1 hour"
 </IfModule>
 
+# Anti-Crawler Protection
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Block suspicious user agents
+    RewriteCond %{HTTP_USER_AGENT} (bot|crawler|spider|scraper|curl|wget|python|requests|urllib|selenium|phantomjs|headless|automation) [NC]
+    RewriteRule .* - [F,L]
+    
+    # Block suspicious referrers
+    RewriteCond %{HTTP_REFERER} (scraping|scraper|bot|crawler) [NC]
+    RewriteRule .* - [F,L]
+    
+    # Block rapid requests (rate limiting)
+    RewriteCond %{TIME} >%{TIME}
+    RewriteRule .* - [F,L]
+    
+    # Block access to sensitive files
+    RewriteRule \.(htaccess|htpasswd|ini|log|sh|sql|conf)$ - [F,L]
+    
+    # Block suspicious IP patterns
+    RewriteCond %{REMOTE_ADDR} ^(192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.) [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
 # Add X-Robots-Tag header
 <IfModule mod_headers.c>
     Header always set X-Robots-Tag "index, follow"
@@ -33,6 +57,15 @@
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set X-XSS-Protection "1; mode=block"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Anti-crawler headers
+    Header always set X-Crawler-Detection "enabled"
+    Header always set X-Anti-Bot "active"
+    
+    # Rate limiting headers
+    Header always set X-RateLimit-Limit "100"
+    Header always set X-RateLimit-Remaining "100"
+    Header always set X-RateLimit-Reset "3600"
 </IfModule>
 
 # Redirect www to non-www (or vice versa if preferred)

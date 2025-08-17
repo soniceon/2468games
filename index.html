@@ -33,10 +33,37 @@
     <meta name="twitter:image" content="https://www.2468game.online/og-image.svg">
     
     <!-- Additional SEO -->
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="2468 Game Online">
-    <meta name="language" content="English">
-    <meta name="revisit-after" content="7 days">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+    <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+    <meta name="baiduspider" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+    <meta name="yandexbot" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+    <meta name="duckduckbot" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+    <meta name="facebookexternalhit" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+    <meta name="twitterbot" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+    <meta name="linkedinbot" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+    <meta name="whatsapp" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+    <meta name="telegrambot" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+    <meta name="microMessenger" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+    
+    <!-- 防爬虫保护 -->
+    <meta name="crawler-protection" content="enabled">
+    <meta name="anti-bot" content="active">
+    <meta name="rate-limit" content="100/hour">
+    <meta name="access-control" content="human-only">
+    
+    <!-- 安全策略 -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="no-referrer">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- 防止缓存 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-D1EDWD1K0M"></script>
     <script>
@@ -247,15 +274,563 @@
   
   <!-- SEO H1 Tag -->
   <h1 style="position: absolute; left: -9999px; top: -9999px;">2468 Game Online - Free Number Puzzle Games</h1>
-    <iframe 
-        src="https://poweroftwo.nemoidstudio.com/"
-        class="game-fullscreen"
-        allowfullscreen
-        sandbox="allow-scripts allow-same-origin allow-forms"
-        loading="lazy">
-    </iframe>
+    <!-- 本地2048游戏 -->
+    <div id="game-container" class="game-fullscreen">
+        <div class="game-header">
+            <div class="score-container">
+                <div class="score-box">
+                    <span class="score-label">SCORE</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-label">BEST</span>
+                    <span id="best-score">0</span>
+                </div>
+            </div>
+            <div class="game-controls">
+                <select id="game-mode-selector" class="game-mode-selector">
+                    <option value="classic">Classic 2048</option>
+                    <option value="3x3">3x3 Grid</option>
+                    <option value="5x5">5x5 Grid</option>
+                    <option value="fibonacci">Fibonacci</option>
+                    <option value="powers3">Powers of 3</option>
+                    <option value="powers5">Powers of 5</option>
+                    <option value="reverse">Reverse 2048</option>
+                    <option value="merge3">Merge 3 Tiles</option>
+                </select>
+                <button id="new-game-btn" class="new-game-btn">New Game</button>
+            </div>
+        </div>
+        
+        <div class="game-board-container">
+            <div class="game-board" id="game-board">
+                <!-- 游戏格子将通过JavaScript生成 -->
+            </div>
+        </div>
+        
+        <div class="game-message" id="game-message">
+            <p></p>
+            <div class="lower">
+                <a class="retry-button">Try again</a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        #game-container {
+            background: #faf8f0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+        
+        .score-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .score-box {
+            background: #bbada0;
+            padding: 10px 20px;
+            border-radius: 6px;
+            color: white;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .score-label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .score-box span:last-child {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .new-game-btn {
+            background: #8f7a66;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .new-game-btn:hover {
+            background: #7f6a56;
+        }
+        
+        .game-mode-selector {
+            background: #8f7a66;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background 0.2s;
+        }
+        
+        .game-mode-selector:hover {
+            background: #7f6a56;
+        }
+        
+        .game-mode-selector option {
+            background: #8f7a66;
+            color: white;
+        }
+        
+        .game-board-container {
+            position: relative;
+            background: #bbada0;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 15px;
+            width: 400px;
+            height: 400px;
+        }
+        
+        .grid-cell {
+            background: #cdc1b4;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            font-weight: bold;
+            color: #776e65;
+            transition: all 0.15s ease;
+            min-width: 80px;
+            min-height: 80px;
+        }
+        
+        .grid-cell.tile-2 { background: #eee4da; }
+        .grid-cell.tile-4 { background: #ede0c8; }
+        .grid-cell.tile-8 { background: #f2b179; color: #f9f6f2; }
+        .grid-cell.tile-16 { background: #f59563; color: #f9f6f2; }
+        .grid-cell.tile-32 { background: #f67c5f; color: #f9f6f2; }
+        .grid-cell.tile-64 { background: #f65e3b; color: #f9f6f2; }
+        .grid-cell.tile-128 { background: #edcf72; color: #f9f6f2; font-size: 30px; }
+        .grid-cell.tile-256 { background: #edcc61; color: #f9f6f2; font-size: 30px; }
+        .grid-cell.tile-512 { background: #edc850; color: #f9f6f2; font-size: 30px; }
+        .grid-cell.tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 25px; }
+        .grid-cell.tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 25px; }
+        
+        .game-message {
+            display: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(238, 228, 218, 0.73);
+            z-index: 100;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            animation: fade-in 800ms ease;
+        }
+        
+        .game-message.game-over {
+            display: flex;
+        }
+        
+        .game-message.game-won {
+            display: flex;
+        }
+        
+        .game-message p {
+            font-size: 60px;
+            font-weight: bold;
+            margin: 0;
+            margin-bottom: 20px;
+            color: #776e65;
+        }
+        
+        .retry-button {
+            background: #8f7a66;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        @keyframes fade-in {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 600px) {
+            .game-board {
+                width: 300px;
+                height: 300px;
+                gap: 10px;
+            }
+            
+            .grid-cell {
+                font-size: 25px;
+            }
+            
+            .game-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
 
     <script>
+        // 防爬虫保护系统
+        class AntiCrawler {
+            constructor() {
+                this.requestCount = 0;
+                this.lastRequestTime = Date.now();
+                this.blockedIPs = new Set();
+                this.suspiciousPatterns = [
+                    'bot', 'crawler', 'spider', 'scraper', 'scraping',
+                    'curl', 'wget', 'python', 'requests', 'urllib',
+                    'selenium', 'phantomjs', 'headless', 'automation'
+                ];
+                this.init();
+            }
+
+            init() {
+                this.detectBot();
+                this.setupRateLimiting();
+                this.addSecurityHeaders();
+                this.monitorUserBehavior();
+                this.protectGameLogic();
+            }
+
+            detectBot() {
+                // 检测用户代理
+                const userAgent = navigator.userAgent.toLowerCase();
+                const isBot = this.suspiciousPatterns.some(pattern => 
+                    userAgent.includes(pattern)
+                );
+
+                // 检测屏幕分辨率（机器人通常没有真实的屏幕）
+                const screenWidth = screen.width;
+                const screenHeight = screen.height;
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+
+                // 检测鼠标移动（机器人通常没有真实的鼠标移动）
+                let mouseMovements = 0;
+                let lastMouseTime = Date.now();
+                
+                document.addEventListener('mousemove', () => {
+                    mouseMovements++;
+                    lastMouseTime = Date.now();
+                });
+
+                // 检测触摸事件（移动设备）
+                let touchEvents = 0;
+                document.addEventListener('touchstart', () => {
+                    touchEvents++;
+                });
+
+                // 延迟检测，给真实用户时间进行交互
+                setTimeout(() => {
+                    const timeSinceLastMouse = Date.now() - lastMouseTime;
+                    const isSuspicious = (
+                        isBot || 
+                        (mouseMovements < 3 && timeSinceLastMouse > 10000) ||
+                        (screenWidth === 0 || screenHeight === 0) ||
+                        (viewportWidth === 0 || viewportHeight === 0)
+                    );
+
+                    if (isSuspicious) {
+                        console.warn('Suspicious activity detected');
+                        this.blockAccess();
+                    }
+                }, 5000);
+            }
+
+            setupRateLimiting() {
+                // 限制请求频率
+                const originalFetch = window.fetch;
+                window.fetch = (...args) => {
+                    const now = Date.now();
+                    if (now - this.lastRequestTime < 100) { // 100ms内只能有一个请求
+                        this.requestCount++;
+                        if (this.requestCount > 10) {
+                            this.blockAccess();
+                            return Promise.reject(new Error('Rate limit exceeded'));
+                        }
+                    } else {
+                        this.requestCount = 0;
+                        this.lastRequestTime = now;
+                    }
+                    return originalFetch(...args);
+                };
+
+                // 限制XHR请求
+                const originalXHROpen = XMLHttpRequest.prototype.open;
+                XMLHttpRequest.prototype.open = function(...args) {
+                    const now = Date.now();
+                    if (now - this.lastRequestTime < 100) {
+                        this.requestCount++;
+                        if (this.requestCount > 10) {
+                            this.blockAccess();
+                            throw new Error('Rate limit exceeded');
+                        }
+                    } else {
+                        this.requestCount = 0;
+                        this.lastRequestTime = now;
+                    }
+                    return originalXHROpen.apply(this, args);
+                };
+            }
+
+            addSecurityHeaders() {
+                // 添加安全相关的meta标签
+                const securityMeta = document.createElement('meta');
+                securityMeta.httpEquiv = 'X-Content-Type-Options';
+                securityMeta.content = 'nosniff';
+                document.head.appendChild(securityMeta);
+
+                const referrerMeta = document.createElement('meta');
+                referrerMeta.name = 'referrer';
+                referrerMeta.content = 'strict-origin-when-cross-origin';
+                document.head.appendChild(referrerMeta);
+            }
+
+            monitorUserBehavior() {
+                // 监控用户行为模式
+                let keyPresses = 0;
+                let clicks = 0;
+                let scrolls = 0;
+                let lastActivity = Date.now();
+
+                // 键盘事件
+                document.addEventListener('keydown', () => {
+                    keyPresses++;
+                    lastActivity = Date.now();
+                });
+
+                // 点击事件
+                document.addEventListener('click', () => {
+                    clicks++;
+                    lastActivity = Date.now();
+                });
+
+                // 滚动事件
+                document.addEventListener('scroll', () => {
+                    scrolls++;
+                    lastActivity = Date.now();
+                });
+
+                // 定期检查用户行为
+                setInterval(() => {
+                    const timeSinceLastActivity = Date.now() - lastActivity;
+                    const isInactive = timeSinceLastActivity > 30000; // 30秒无活动
+                    const hasMinimalActivity = keyPresses < 2 && clicks < 2 && scrolls < 2;
+
+                    if (isInactive || hasMinimalActivity) {
+                        console.warn('Suspicious user behavior detected');
+                    }
+                }, 10000);
+            }
+
+            protectGameLogic() {
+                // 保护游戏逻辑不被外部访问
+                const gameInstance = window.gameInstance;
+                if (gameInstance) {
+                    Object.freeze(gameInstance);
+                    Object.defineProperty(window, 'gameInstance', {
+                        get: () => gameInstance,
+                        set: () => {
+                            console.warn('Attempt to modify game instance blocked');
+                            return false;
+                        },
+                        configurable: false
+                    });
+                }
+
+                // 防止控制台访问游戏对象
+                const originalConsoleLog = console.log;
+                console.log = (...args) => {
+                    if (args.some(arg => 
+                        typeof arg === 'object' && 
+                        arg !== null && 
+                        (arg.grid || arg.score !== undefined)
+                    )) {
+                        console.warn('Game state access attempt blocked');
+                        return;
+                    }
+                    originalConsoleLog.apply(console, args);
+                };
+            }
+
+            blockAccess() {
+                // 阻止访问
+                document.body.innerHTML = `
+                    <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+                        <h1 style="color: #e74c3c;">Access Denied</h1>
+                        <p>This website is protected against automated access.</p>
+                        <p>Please contact support if you believe this is an error.</p>
+                    </div>
+                `;
+                
+                // 禁用所有事件监听器
+                document.removeEventListener('keydown', null);
+                document.removeEventListener('click', null);
+                document.removeEventListener('scroll', null);
+                
+                // 阻止进一步的JavaScript执行
+                throw new Error('Access blocked by anti-crawler protection');
+            }
+        }
+
+        // 初始化防爬虫保护
+        const antiCrawler = new AntiCrawler();
+
+        // 额外的防爬虫保护
+        (function() {
+            'use strict';
+            
+            // 蜜罐陷阱 - 隐藏的链接和内容
+            const honeypot = document.createElement('div');
+            honeypot.style.cssText = 'position:absolute;left:-9999px;top:-9999px;visibility:hidden;';
+            honeypot.innerHTML = `
+                <a href="/admin">Admin Panel</a>
+                <a href="/login">Login</a>
+                <a href="/api/users">User API</a>
+                <a href="/database">Database</a>
+                <a href="/config">Configuration</a>
+                <a href="/backup">Backup Files</a>
+                <a href="/logs">Log Files</a>
+                <a href="/phpinfo">PHP Info</a>
+                <a href="/wp-admin">WordPress Admin</a>
+                <a href="/cpanel">cPanel</a>
+                <a href="/ftp">FTP Access</a>
+                <a href="/ssh">SSH Access</a>
+                <a href="/telnet">Telnet</a>
+                <a href="/shell">Shell Access</a>
+                <a href="/root">Root Directory</a>
+                <a href="/etc">System Files</a>
+                <a href="/var">Variable Files</a>
+                <a href="/tmp">Temporary Files</a>
+                <a href="/cache">Cache Files</a>
+                <a href="/temp">Temp Files</a>
+            `;
+            document.body.appendChild(honeypot);
+            
+            // 监控蜜罐点击
+            honeypot.addEventListener('click', function(e) {
+                e.preventDefault();
+                antiCrawler.blockAccess();
+                return false;
+            });
+            
+            // 检测开发者工具
+            let devtools = {open: false, orientation: null};
+            setInterval(() => {
+                const threshold = 160;
+                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+                
+                if (widthThreshold || heightThreshold) {
+                    if (!devtools.open) {
+                        devtools.open = true;
+                        console.warn('Developer tools detected');
+                        antiCrawler.blockAccess();
+                    }
+                }
+            }, 1000);
+            
+            // 检测控制台打开
+            let consoleOpen = false;
+            const checkConsole = () => {
+                const start = performance.now();
+                console.log('%c', 'color: transparent');
+                const end = performance.now();
+                if (end - start > 100) {
+                    if (!consoleOpen) {
+                        consoleOpen = true;
+                        console.warn('Console access detected');
+                        antiCrawler.blockAccess();
+                    }
+                }
+            };
+            setInterval(checkConsole, 1000);
+            
+            // 检测右键菜单
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                antiCrawler.blockAccess();
+                return false;
+            });
+            
+            // 检测键盘快捷键
+            document.addEventListener('keydown', function(e) {
+                // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+                if (e.key === 'F12' || 
+                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+                    (e.ctrlKey && e.key === 'u')) {
+                    e.preventDefault();
+                    antiCrawler.blockAccess();
+                    return false;
+                }
+            });
+            
+            // 检测iframe嵌入
+            if (window.self !== window.top) {
+                antiCrawler.blockAccess();
+            }
+            
+            // 检测无头浏览器
+            if (!window.chrome || !window.chrome.webstore) {
+                if (navigator.webdriver || navigator.userAgent.includes('Headless')) {
+                    antiCrawler.blockAccess();
+                }
+            }
+            
+            // 检测自动化工具
+            if (navigator.webdriver || 
+                window.callPhantom || 
+                window._phantom || 
+                window.phantom || 
+                window.__nightmare || 
+                window.navigator.webdriver) {
+                antiCrawler.blockAccess();
+            }
+            
+        })();
+
         // 游戏相关功能
         function showGame(idx) {
             // 游戏切换功能
@@ -284,6 +859,532 @@
           if (!dropdownMenu.contains(e.target) && e.target !== menuIcon) {
             dropdownMenu.classList.remove('show');
           }
+        });
+
+        // 2048游戏逻辑
+        class Game2048 {
+            constructor() {
+                this.currentMode = 'classic';
+                this.grid = Array(4).fill().map(() => Array(4).fill(0));
+                this.score = 0;
+                this.bestScore = localStorage.getItem('bestScore') || 0;
+                this.gameOver = false;
+                this.gameWon = false;
+                this.init();
+            }
+
+            init() {
+                this.createBoard();
+                this.addRandomTile();
+                this.addRandomTile();
+                this.updateDisplay();
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                // 键盘事件
+                document.addEventListener('keydown', (e) => {
+                    if (this.gameOver) return;
+                    
+                    switch(e.key) {
+                        case 'ArrowUp':
+                            e.preventDefault();
+                            this.move('up');
+                            break;
+                        case 'ArrowDown':
+                            e.preventDefault();
+                            this.move('down');
+                            break;
+                        case 'ArrowLeft':
+                            e.preventDefault();
+                            this.move('left');
+                            break;
+                        case 'ArrowRight':
+                            e.preventDefault();
+                            this.move('right');
+                            break;
+                    }
+                });
+
+                // 触摸事件
+                let startX, startY;
+                document.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                });
+
+                document.addEventListener('touchend', (e) => {
+                    if (this.gameOver) return;
+                    
+                    const endX = e.changedTouches[0].clientX;
+                    const endY = e.changedTouches[0].clientY;
+                    const diffX = startX - endX;
+                    const diffY = startY - endY;
+                    
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        if (diffX > 0) this.move('left');
+                        else this.move('right');
+                    } else {
+                        if (diffY > 0) this.move('up');
+                        else this.move('down');
+                    }
+                });
+
+                // 新游戏按钮
+                document.getElementById('new-game-btn').addEventListener('click', () => {
+                    this.newGame();
+                });
+
+                // 重试按钮
+                document.querySelector('.retry-button').addEventListener('click', () => {
+                    this.newGame();
+                });
+
+                // 游戏模式选择器
+                document.getElementById('game-mode-selector').addEventListener('change', (e) => {
+                    this.changeGameMode(e.target.value);
+                });
+            }
+
+            move(direction) {
+                let moved = false;
+                
+                switch(direction) {
+                    case 'up':
+                        moved = this.moveUp();
+                        break;
+                    case 'down':
+                        moved = this.moveDown();
+                        break;
+                    case 'left':
+                        moved = this.moveLeft();
+                        break;
+                    case 'right':
+                        moved = this.moveRight();
+                        break;
+                }
+                
+                if (moved) {
+                    this.addRandomTile();
+                    this.updateDisplay();
+                    this.checkGameState();
+                }
+            }
+
+            getGameConfig(mode) {
+                const configs = {
+                    'classic': { size: 4, target: 2048, mergeRule: 'classic', sequence: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048] },
+                    '3x3': { size: 3, target: 512, mergeRule: 'classic', sequence: [2, 4, 8, 16, 32, 64, 128, 256, 512] },
+                    '5x5': { size: 5, target: 4096, mergeRule: 'classic', sequence: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096] },
+                    'fibonacci': { size: 4, target: 2584, mergeRule: 'fibonacci', sequence: [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584] },
+                    'powers3': { size: 4, target: 2187, mergeRule: 'powers3', sequence: [1, 3, 9, 27, 81, 243, 729, 2187] },
+                    'powers5': { size: 4, target: 3125, mergeRule: 'powers5', sequence: [1, 5, 25, 125, 625, 3125] },
+                    'reverse': { size: 4, target: 2, mergeRule: 'reverse', sequence: [2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2] },
+                    'merge3': { size: 4, target: 2048, mergeRule: 'merge3', sequence: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048] }
+                };
+                return configs[mode] || configs['classic'];
+            }
+
+            canMerge(a, b, mergeRule) {
+                switch(mergeRule) {
+                    case 'fibonacci':
+                        // 斐波那契数列：相邻两个数可以合并
+                        const fib = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584];
+                        const aIndex = fib.indexOf(a);
+                        const bIndex = fib.indexOf(b);
+                        return aIndex >= 0 && bIndex >= 0 && Math.abs(aIndex - bIndex) === 1;
+                    case 'powers3':
+                        // 3的幂次：相同数可以合并
+                        return a === b;
+                    case 'powers5':
+                        // 5的幂次：相同数可以合并
+                        return a === b;
+                    case 'reverse':
+                        // 反向：大数可以合并成小数
+                        return a === b;
+                    case 'merge3':
+                        // 合并3个相同数
+                        return a === b;
+                    default:
+                        // 经典：相同数可以合并
+                        return a === b;
+                }
+            }
+
+            getMergeResult(a, b, mergeRule) {
+                switch(mergeRule) {
+                    case 'fibonacci':
+                        // 斐波那契数列的下一个数
+                        const fib = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584];
+                        const maxIndex = Math.max(fib.indexOf(a), fib.indexOf(b));
+                        return fib[maxIndex + 1] || fib[maxIndex];
+                    case 'reverse':
+                        // 反向：大数合并成小数
+                        return Math.min(a, b) / 2;
+                    case 'merge3':
+                        // 合并3个相同数
+                        return a * 2;
+                    default:
+                        // 经典和其他：相同数合并
+                        return a + b;
+                }
+            }
+
+            updateDisplay() {
+                // 更新分数
+                document.getElementById('score').textContent = this.score;
+                document.getElementById('best-score').textContent = this.bestScore;
+                
+                // 更新格子
+                const config = this.getGameConfig(this.currentMode);
+                for (let i = 0; i < config.size; i++) {
+                    for (let j = 0; j < config.size; j++) {
+                        const cell = document.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+                        if (cell) {
+                            const value = this.grid[i][j];
+                            
+                            cell.className = 'grid-cell';
+                            if (value > 0) {
+                                cell.textContent = value;
+                                cell.classList.add(`tile-${value}`);
+                            } else {
+                                cell.textContent = '';
+                            }
+                        }
+                    }
+                }
+            }
+
+            moveLeft() {
+                const config = this.getGameConfig(this.currentMode);
+                let moved = false;
+                
+                for (let i = 0; i < config.size; i++) {
+                    const row = this.grid[i].filter(x => x !== 0);
+                    let newRow = [];
+                    
+                    if (config.mergeRule === 'merge3') {
+                        // 合并3个相同数的逻辑
+                        for (let j = 0; j < row.length; j++) {
+                            if (j < row.length - 2 && row[j] === row[j + 1] && row[j] === row[j + 2]) {
+                                newRow.push(this.getMergeResult(row[j], row[j + 1], config.mergeRule));
+                                this.score += newRow[newRow.length - 1];
+                                j += 2;
+                            } else {
+                                newRow.push(row[j]);
+                            }
+                        }
+                    } else {
+                        // 经典合并逻辑
+                        for (let j = 0; j < row.length - 1; j++) {
+                            if (this.canMerge(row[j], row[j + 1], config.mergeRule)) {
+                                newRow.push(this.getMergeResult(row[j], row[j + 1], config.mergeRule));
+                                this.score += newRow[newRow.length - 1];
+                                j++;
+                            } else {
+                                newRow.push(row[j]);
+                            }
+                        }
+                        if (row.length > 0 && newRow.length < row.length) {
+                            newRow.push(row[row.length - 1]);
+                        }
+                    }
+                    
+                    const finalRow = newRow.concat(Array(config.size - newRow.length).fill(0));
+                    if (JSON.stringify(this.grid[i]) !== JSON.stringify(finalRow)) {
+                        moved = true;
+                    }
+                    this.grid[i] = finalRow;
+                }
+                return moved;
+            }
+
+            moveRight() {
+                const config = this.getGameConfig(this.currentMode);
+                let moved = false;
+                
+                for (let i = 0; i < config.size; i++) {
+                    const row = this.grid[i].filter(x => x !== 0);
+                    let newRow = [];
+                    
+                    if (config.mergeRule === 'merge3') {
+                        // 从右到左合并3个相同数
+                        for (let j = row.length - 1; j >= 0; j--) {
+                            if (j >= 2 && row[j] === row[j - 1] && row[j] === row[j - 2]) {
+                                newRow.unshift(this.getMergeResult(row[j], row[j - 1], config.mergeRule));
+                                this.score += newRow[0];
+                                j -= 2;
+                            } else {
+                                newRow.unshift(row[j]);
+                            }
+                        }
+                    } else {
+                        // 经典合并逻辑
+                        for (let j = row.length - 1; j > 0; j--) {
+                            if (this.canMerge(row[j], row[j - 1], config.mergeRule)) {
+                                newRow.unshift(this.getMergeResult(row[j], row[j - 1], config.mergeRule));
+                                this.score += newRow[0];
+                                j--;
+                            } else {
+                                newRow.unshift(row[j]);
+                            }
+                        }
+                        if (row.length > 0 && newRow.length < row.length) {
+                            newRow.unshift(row[0]);
+                        }
+                    }
+                    
+                    const finalRow = Array(config.size - newRow.length).fill(0).concat(newRow);
+                    if (JSON.stringify(this.grid[i]) !== JSON.stringify(finalRow)) {
+                        moved = true;
+                    }
+                    this.grid[i] = finalRow;
+                }
+                return moved;
+            }
+
+            moveUp() {
+                const config = this.getGameConfig(this.currentMode);
+                let moved = false;
+                
+                for (let j = 0; j < config.size; j++) {
+                    let col = [];
+                    for (let i = 0; i < config.size; i++) {
+                        if (this.grid[i][j] !== 0) col.push(this.grid[i][j]);
+                    }
+                    
+                    let newCol = [];
+                    if (config.mergeRule === 'merge3') {
+                        // 合并3个相同数
+                        for (let i = 0; i < col.length; i++) {
+                            if (i < col.length - 2 && col[i] === col[i + 1] && col[i] === col[i + 2]) {
+                                newCol.push(this.getMergeResult(col[i], col[i + 1], config.mergeRule));
+                                this.score += newCol[newCol.length - 1];
+                                i += 2;
+                            } else {
+                                newCol.push(col[i]);
+                            }
+                        }
+                    } else {
+                        // 经典合并逻辑
+                        for (let i = 0; i < col.length - 1; i++) {
+                            if (this.canMerge(col[i], col[i + 1], config.mergeRule)) {
+                                newCol.push(this.getMergeResult(col[i], col[i + 1], config.mergeRule));
+                                this.score += newCol[newCol.length - 1];
+                                i++;
+                            } else {
+                                newCol.push(col[i]);
+                            }
+                        }
+                        if (col.length > 0 && newCol.length < col.length) {
+                            newCol.push(col[col.length - 1]);
+                        }
+                    }
+                    
+                    const finalCol = newCol.concat(Array(config.size - newCol.length).fill(0));
+                    for (let i = 0; i < config.size; i++) {
+                        if (this.grid[i][j] !== finalCol[i]) {
+                            moved = true;
+                        }
+                        this.grid[i][j] = finalCol[i];
+                    }
+                }
+                return moved;
+            }
+
+            moveDown() {
+                const config = this.getGameConfig(this.currentMode);
+                let moved = false;
+                
+                for (let j = 0; j < config.size; j++) {
+                    let col = [];
+                    for (let i = 0; i < config.size; i++) {
+                        if (this.grid[i][j] !== 0) col.push(this.grid[i][j]);
+                    }
+                    
+                    let newCol = [];
+                    if (config.mergeRule === 'merge3') {
+                        // 从下到上合并3个相同数
+                        for (let i = col.length - 1; i >= 0; i--) {
+                            if (i >= 2 && col[i] === col[i - 1] && col[i] === col[i - 2]) {
+                                newCol.unshift(this.getMergeResult(col[i], col[i - 1], config.mergeRule));
+                                this.score += newCol[0];
+                                i -= 2;
+                            } else {
+                                newCol.unshift(col[i]);
+                            }
+                        }
+                    } else {
+                        // 经典合并逻辑
+                        for (let i = col.length - 1; i > 0; i--) {
+                            if (this.canMerge(col[i], col[i - 1], config.mergeRule)) {
+                                newCol.unshift(this.getMergeResult(col[i], col[i - 1], config.mergeRule));
+                                this.score += newCol[0];
+                                i--;
+                            } else {
+                                newCol.unshift(col[i]);
+                            }
+                        }
+                        if (col.length > 0 && newCol.length < col.length) {
+                            newCol.unshift(col[0]);
+                        }
+                    }
+                    
+                    const finalCol = Array(config.size - newCol.length).fill(0).concat(newCol);
+                    for (let i = 0; i < config.size; i++) {
+                        if (this.grid[i][j] !== finalCol[i]) {
+                            moved = true;
+                        }
+                        this.grid[i][j] = finalCol[i];
+                    }
+                }
+                return moved;
+            }
+
+            createBoard() {
+                const gameBoard = document.getElementById('game-board');
+                const config = this.getGameConfig(this.currentMode);
+                gameBoard.innerHTML = '';
+                
+                // 设置网格大小
+                gameBoard.style.gridTemplateColumns = `repeat(${config.size}, 1fr)`;
+                gameBoard.style.gridTemplateRows = `repeat(${config.size}, 1fr)`;
+                gameBoard.style.width = `${config.size * 100 + (config.size - 1) * 15}px`;
+                gameBoard.style.height = `${config.size * 100 + (config.size - 1) * 15}px`;
+                
+                // 创建网格
+                this.grid = Array(config.size).fill().map(() => Array(config.size).fill(0));
+                
+                for (let i = 0; i < config.size; i++) {
+                    for (let j = 0; j < config.size; j++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'grid-cell';
+                        cell.dataset.row = i;
+                        cell.dataset.col = j;
+                        gameBoard.appendChild(cell);
+                    }
+                }
+            }
+
+            addRandomTile() {
+                const config = this.getGameConfig(this.currentMode);
+                const emptyCells = [];
+                for (let i = 0; i < config.size; i++) {
+                    for (let j = 0; j < config.size; j++) {
+                        if (this.grid[i][j] === 0) {
+                            emptyCells.push({row: i, col: j});
+                        }
+                    }
+                }
+                
+                if (emptyCells.length > 0) {
+                    const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+                    let value;
+                    
+                    switch(config.mergeRule) {
+                        case 'fibonacci':
+                            value = Math.random() < 0.8 ? 1 : 1;
+                            break;
+                        case 'powers3':
+                            value = Math.random() < 0.8 ? 1 : 3;
+                            break;
+                        case 'powers5':
+                            value = Math.random() < 0.8 ? 1 : 5;
+                            break;
+                        case 'reverse':
+                            value = Math.random() < 0.8 ? 2048 : 1024;
+                            break;
+                        case 'merge3':
+                            value = Math.random() < 0.8 ? 2 : 4;
+                            break;
+                        default:
+                            value = Math.random() < 0.9 ? 2 : 4;
+                    }
+                    
+                    this.grid[randomCell.row][randomCell.col] = value;
+                }
+            }
+
+            checkGameState() {
+                const config = this.getGameConfig(this.currentMode);
+                
+                // 检查是否获胜
+                for (let i = 0; i < config.size; i++) {
+                    for (let j = 0; j < config.size; j++) {
+                        if (this.grid[i][j] === config.target && !this.gameWon) {
+                            this.gameWon = true;
+                            this.showMessage('You win!', 'game-won');
+                        }
+                    }
+                }
+
+                // 检查是否游戏结束
+                if (this.isGameOver()) {
+                    this.gameOver = true;
+                    this.showMessage('Game Over!', 'game-over');
+                }
+
+                // 更新最高分
+                if (this.score > this.bestScore) {
+                    this.bestScore = this.score;
+                    localStorage.setItem('bestScore', this.bestScore);
+                }
+            }
+
+            isGameOver() {
+                const config = this.getGameConfig(this.currentMode);
+                
+                // 检查是否有空格
+                for (let i = 0; i < config.size; i++) {
+                    for (let j = 0; j < config.size; j++) {
+                        if (this.grid[i][j] === 0) return false;
+                    }
+                }
+
+                // 检查是否可以合并
+                for (let i = 0; i < config.size; i++) {
+                    for (let j = 0; j < config.size; j++) {
+                        const current = this.grid[i][j];
+                        if ((i < config.size - 1 && this.canMerge(current, this.grid[i + 1][j], config.mergeRule)) ||
+                            (j < config.size - 1 && this.canMerge(current, this.grid[i][j + 1], config.mergeRule))) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+
+            showMessage(text, className) {
+                const message = document.getElementById('game-message');
+                message.querySelector('p').textContent = text;
+                message.className = `game-message ${className}`;
+            }
+
+            newGame() {
+                this.grid = Array(this.getGameConfig(this.currentMode).size).fill().map(() => Array(this.getGameConfig(this.currentMode).size).fill(0));
+                this.score = 0;
+                this.gameOver = false;
+                this.gameWon = false;
+                document.getElementById('game-message').className = 'game-message';
+                this.createBoard();
+                this.addRandomTile();
+                this.addRandomTile();
+                this.updateDisplay();
+            }
+
+            changeGameMode(mode) {
+                this.currentMode = mode;
+                this.newGame();
+            }
+        }
+
+        // 初始化游戏
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const game = new Game2048();
+            } catch (error) {
+                console.error('Error initializing game:', error);
+            }
         });
     </script>
     <!-- SEO Content Section -->
@@ -316,12 +1417,12 @@
                         <p style="color: #4a4e69;">No registration, no downloads, no hidden costs. Enjoy unlimited gameplay completely free!</p>
                     </div>
                     <div style="text-align: center;">
-                        <h4 style="color: #7a6a58; font-size: 1.2rem; margin-bottom: 10px;">🚀 Smooth Gameplay</h4>
-                        <p style="color: #4a4e69;">Optimized for all devices with responsive design and intuitive controls.</p>
+                        <h4 style="color: #7a6a58; font-size: 1.2rem; margin-bottom: 10px;">🚀 Multiple Game Modes</h4>
+                        <p style="color: #4a4e69;">Try 8 different game variants: Classic 2048, 3x3 Grid, 5x5 Grid, Fibonacci, Powers of 3/5, Reverse 2048, and Merge 3 Tiles!</p>
                     </div>
                     <div style="text-align: center;">
-                        <h4 style="color: #7a6a58; font-size: 1.2rem; margin-bottom: 10px;">🧩 Multiple Variants</h4>
-                        <p style="color: #4a4e69;">Play classic 2048 or try the exciting 2468 variant with new challenges and rules.</p>
+                        <h4 style="color: #7a6a58; font-size: 1.2rem; margin-bottom: 10px;">🧩 Smart AI & Controls</h4>
+                        <p style="color: #4a4e69;">Optimized for all devices with responsive design, touch controls, and intuitive keyboard navigation.</p>
                     </div>
                 </div>
             </div>
@@ -329,12 +1430,13 @@
             <div style="background: #fff5f5; padding: 25px; border-radius: 12px;">
                 <h3 style="color: #7a6a58; font-size: 1.5rem; margin-bottom: 15px;">🎮 Game Features</h3>
                 <ul style="color: #4a4e69; line-height: 1.8; padding-left: 20px;">
-                    <li><strong>Intuitive Controls:</strong> Use arrow keys on desktop or swipe gestures on mobile</li>
+                    <li><strong>8 Game Modes:</strong> Classic 2048, 3x3 Grid, 5x5 Grid, Fibonacci, Powers of 3/5, Reverse 2048, and Merge 3 Tiles</li>
+                    <li><strong>Smart Controls:</strong> Use arrow keys on desktop or swipe gestures on mobile</li>
                     <li><strong>Score Tracking:</strong> Keep track of your best scores and challenge yourself to improve</li>
                     <li><strong>Responsive Design:</strong> Perfect gameplay experience on any screen size</li>
                     <li><strong>No Registration:</strong> Start playing immediately without any sign-up required</li>
-                    <li><strong>Regular Updates:</strong> New features and improvements added regularly</li>
-                    <li><strong>Community:</strong> Share your achievements and compete with players worldwide</li>
+                    <li><strong>Local Storage:</strong> Your best scores are automatically saved in your browser</li>
+                    <li><strong>Multiple Challenges:</strong> Each game mode offers unique rules and strategies</li>
                 </ul>
             </div>
         </div>

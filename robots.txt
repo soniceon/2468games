@@ -1,88 +1,101 @@
 # General rules
 User-agent: *
-Disallow: /admin/
-Disallow: /include/
-Allow: /
-Crawl-delay: 1
+Disallow: /
 
-# AI Crawler Friendly Configuration
-User-agent: GPTBot
-Allow: /
-Crawl-delay: 1
+# Block all crawlers
+User-agent: *
+Disallow: /
 
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
+# Block specific crawlers
+User-agent: bot
+Disallow: /
 
+User-agent: crawler
+Disallow: /
+
+User-agent: spider
+Disallow: /
+
+User-agent: scraper
+Disallow: /
+
+User-agent: curl
+Disallow: /
+
+User-agent: wget
+Disallow: /
+
+User-agent: python
+Disallow: /
+
+User-agent: requests
+Disallow: /
+
+User-agent: urllib
+Disallow: /
+
+User-agent: selenium
+Disallow: /
+
+User-agent: phantomjs
+Disallow: /
+
+User-agent: headless
+Disallow: /
+
+User-agent: automation
+Disallow: /
+
+# Block Googlebot (optional - remove if you want SEO)
 User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
+Disallow: /
 
+# Block Bingbot (optional - remove if you want SEO)
+User-agent: Bingbot
+Disallow: /
+
+# Block Baiduspider (optional - remove if you want SEO)
 User-agent: Baiduspider
-Allow: /
-Crawl-delay: 2
+Disallow: /
 
+# Block YandexBot (optional - remove if you want SEO)
 User-agent: YandexBot
-Allow: /
-Crawl-delay: 1
+Disallow: /
 
-User-agent: DuckDuckGoBot
-Allow: /
-Crawl-delay: 1
+# Block DuckDuckBot (optional - remove if you want SEO)
+User-agent: DuckDuckBot
+Disallow: /
 
-User-agent: Slurp
-Allow: /
-Crawl-delay: 1
+# Block Facebook crawler (optional - remove if you want social media)
+User-agent: facebookexternalhit
+Disallow: /
 
-User-agent: ChatGPT-User
-Allow: /
-Crawl-delay: 1
+# Block Twitter crawler (optional - remove if you want social media)
+User-agent: Twitterbot
+Disallow: /
 
-User-agent: OpenAI
-Allow: /
-Crawl-delay: 1
+# Block LinkedIn crawler (optional - remove if you want social media)
+User-agent: LinkedInBot
+Disallow: /
 
-User-agent: Claude
-Allow: /
-Crawl-delay: 1
+# Block WhatsApp crawler (optional - remove if you want social media)
+User-agent: WhatsApp
+Disallow: /
 
-User-agent: PerplexityBot
-Allow: /
-Crawl-delay: 1
+# Block Telegram crawler (optional - remove if you want social media)
+User-agent: TelegramBot
+Disallow: /
 
-User-agent: Applebot
-Allow: /
-Crawl-delay: 1
+# Block WeChat crawler (optional - remove if you want social media)
+User-agent: MicroMessenger
+Disallow: /
 
-User-agent: Amazonbot
-Allow: /
-Crawl-delay: 1
+# Block all other known crawlers
+User-agent: *
+Disallow: /
 
-User-agent: Bytespider
-Allow: /
-Crawl-delay: 2
+# Crawl-delay for any allowed crawlers (if any)
+Crawl-delay: 3600
 
-User-agent: CCBot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Google-Extended
-Allow: /
-Crawl-delay: 1
-
-# Additional search engines
-User-agent: AhrefsBot
-Allow: /
-Crawl-delay: 2
-
-User-agent: SemrushBot
-Allow: /
-Crawl-delay: 2
-
-User-agent: MJ12bot
-Allow: /
-Crawl-delay: 2
-
-# Sitemaps
-Sitemap: https://www.2468game.online/sitemap.xml
-Sitemap: https://www.2468game.online/sitemap.txt 
+# Sitemap (optional - remove if you don't want any indexing)
+# Sitemap: https://www.2468game.online/sitemap.xml 
