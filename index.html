@@ -310,7 +310,9 @@
             </div>
             
             <!-- 排行榜 -->
-            <div class="leaderboard-container">
+            <div class="leaderboard-container" id="leaderboard-container">
+
+                <div class="leaderboard-toggle-indicator">🏆</div>
                 <h3 class="leaderboard-title">🏆 Leaderboard</h3>
                 <div class="leaderboard-tabs">
                     <button class="tab-btn active" data-tab="global">Global</button>
@@ -381,15 +383,114 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            width: 380px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 60px;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 50%, #f0f8ff 100%);
+            backdrop-filter: blur(25px);
+            border: none;
+            border-radius: 25px;
+            padding: 20px 10px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.08),
+                0 4px 16px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
             margin-top: 0;
             z-index: 1000;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateX(0);
+            cursor: pointer;
+            overflow: visible;
+        }
+        
+        .leaderboard-container:hover {
+            transform: translateX(0) scale(1.02);
+            box-shadow: 
+                0 16px 48px rgba(0, 0, 0, 0.12),
+                0 6px 20px rgba(0, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.95);
+            width: 380px !important;
+            padding: 20px !important;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 50%, #f0f8ff 100%);
+        }
+        
+        .leaderboard-container.expanded {
+            transform: translateX(0) scale(1.02);
+            width: 380px !important;
+            padding: 20px !important;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 50%, #f0f8ff 100%);
+        }
+        
+        .leaderboard-container.collapsed {
+            transform: translateX(0) scale(1);
+            width: 60px !important;
+            padding: 20px 10px !important;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 50%, #f0f8ff 100%);
+        }
+        
+        .leaderboard-container.collapsed .leaderboard-title,
+        .leaderboard-container.collapsed .leaderboard-tabs,
+        .leaderboard-container.collapsed .leaderboard-content,
+        .leaderboard-container.collapsed .leaderboard-actions {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            visibility: hidden;
+        }
+        
+
+        
+        .leaderboard-container::before {
+            content: "🏆";
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 28px;
+            opacity: 1;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        .leaderboard-container:hover::before {
+            opacity: 0;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .leaderboard-container.expanded::before {
+            opacity: 0;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .leaderboard-container.collapsed::before {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+        
+        /* 添加展开指示器 */
+        .leaderboard-toggle-indicator {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            color: #ffd700;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+            text-shadow: 
+                0 1px 0 #ffb300,
+                0 2px 0 #ff8c00,
+                0 3px 0 #ff6b00;
+        }
+        
+        .leaderboard-container:hover .leaderboard-toggle-indicator,
+        .leaderboard-container.expanded .leaderboard-toggle-indicator {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .leaderboard-container.collapsed .leaderboard-toggle-indicator {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
         }
         
         .leaderboard-title {
@@ -399,6 +500,44 @@
             color: #7a6a58;
             margin-bottom: 10px;
             margin-top: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .leaderboard-container:hover .leaderboard-title,
+        .leaderboard-container:hover .leaderboard-tabs,
+        .leaderboard-container:hover .leaderboard-content,
+        .leaderboard-container:hover .leaderboard-actions {
+            opacity: 1 !important;
+            max-height: 800px !important;
+            overflow: visible !important;
+            visibility: visible !important;
+            display: block !important;
+        }
+        
+        .leaderboard-container.expanded .leaderboard-title,
+        .leaderboard-container.expanded .leaderboard-tabs,
+        .leaderboard-container.expanded .leaderboard-content,
+        .leaderboard-container.expanded .leaderboard-actions {
+            opacity: 1 !important;
+            max-height: 800px !important;
+            overflow: visible !important;
+            visibility: visible !important;
+            display: block !important;
+        }
+        
+        /* 强制排行榜在悬停时完全展开 */
+        .leaderboard-container:hover {
+            width: 380px !important;
+            min-width: 380px !important;
+            max-width: 380px !important;
+        }
+        
+        .leaderboard-container.expanded {
+            width: 380px !important;
+            min-width: 380px !important;
+            max-width: 380px !important;
         }
         
         .leaderboard-tabs {
@@ -406,6 +545,41 @@
             justify-content: center;
             gap: 5px;
             margin-bottom: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .leaderboard-container:hover .leaderboard-tabs,
+        .leaderboard-container.expanded .leaderboard-tabs {
+            opacity: 1;
+        }
+        
+        .leaderboard-content {
+            margin-bottom: 10px;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        .leaderboard-container:hover .leaderboard-content,
+        .leaderboard-container.expanded .leaderboard-content {
+            opacity: 1;
+            max-height: 800px;
+        }
+        
+        .leaderboard-actions {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 6px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .leaderboard-container:hover .leaderboard-actions,
+        .leaderboard-container.expanded .leaderboard-actions {
+            opacity: 1;
         }
         
         .tab-btn {
@@ -429,10 +603,6 @@
             background: #e0e0e0;
         }
         
-        .leaderboard-content {
-            margin-bottom: 10px;
-        }
-        
         .tab-content {
             display: none;
         }
@@ -441,24 +611,275 @@
             display: block;
         }
         
-        .leaderboard-list {
-            /* 移除高度限制和滚动条 */
+        /* 添加展开/收缩指示器 */
+        .leaderboard-toggle-indicator {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #7a6a58;
+            transition: transform 0.3s ease;
+            pointer-events: none;
         }
         
+        .leaderboard-container:hover .leaderboard-toggle-indicator,
+        .leaderboard-container.expanded .leaderboard-toggle-indicator {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        /* 游戏完成时的特殊效果 */
+        .leaderboard-container.game-completed {
+            animation: leaderboard-pulse 2s ease-in-out;
+            transform: translateX(0);
+        }
+        
+        @keyframes leaderboard-pulse {
+            0%, 100% { transform: translateX(0) scale(1); }
+            50% { transform: translateX(0) scale(1.05); }
+        }
+        
+        /* 响应式设计调整 */
+        @media (max-width: 1000px) {
+            .leaderboard-container {
+                width: 60px;
+                transform: translateX(0);
+            }
+            
+            .leaderboard-container::before {
+                left: 15px;
+                font-size: 24px;
+            }
+            
+            .leaderboard-container.collapsed::after {
+                left: 60px;
+                font-size: 11px;
+                padding: 5px 10px;
+            }
+            
+            .leaderboard-container.collapsed::before {
+                left: 60px;
+                font-size: 9px;
+                padding: 3px 6px;
+            }
+            
+
+        }
+        
+        @media (max-width: 600px) {
+            .leaderboard-container {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                width: 60px;
+                transform: translateX(0);
+            }
+            
+            .leaderboard-container:hover,
+            .leaderboard-container.expanded {
+                transform: translateX(0);
+                width: 300px !important;
+            }
+            
+            .leaderboard-container.collapsed {
+                transform: translateX(0);
+                width: 60px !important;
+            }
+            
+            .leaderboard-container.collapsed::after {
+                left: 60px;
+                font-size: 10px;
+                padding: 4px 8px;
+            }
+            
+            .leaderboard-container.collapsed::before {
+                left: 60px;
+                font-size: 8px;
+                padding: 2px 5px;
+            }
+            
+
+        }
+        
+        /* 排行榜项目的悬停效果 */
         .leaderboard-item {
             display: flex;
             align-items: center;
-            padding: 6px;
-            margin-bottom: 3px;
+            padding: 8px 12px;
+            margin-bottom: 4px;
             background: #f8f6f0;
-            border-radius: 6px;
+            border-radius: 8px;
             transition: all 0.3s ease;
+            cursor: pointer;
+            min-height: 50px;
         }
         
         .leaderboard-item:hover {
             transform: translateX(3px);
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            background: #f0ede6;
         }
+        
+        /* 确保排行榜内容在展开时有足够空间 */
+        .leaderboard-container:hover .leaderboard-content,
+        .leaderboard-container.expanded .leaderboard-content {
+            width: 100% !important;
+            min-width: 340px !important;
+            max-width: 340px !important;
+            display: block !important;
+        }
+        
+        .leaderboard-container:hover .leaderboard-item,
+        .leaderboard-container.expanded .leaderboard-item {
+            width: 100% !important;
+            min-width: 320px !important;
+            max-width: 320px !important;
+            display: flex !important;
+        }
+        
+        /* 强制显示排行榜内容 */
+        .leaderboard-container:hover .tab-content.active,
+        .leaderboard-container.expanded .tab-content.active {
+            display: block !important;
+        }
+        
+        .leaderboard-container:hover .leaderboard-list,
+        .leaderboard-container.expanded .leaderboard-list {
+            display: block !important;
+            width: 100% !important;
+        }
+        
+        /* 排行榜展开时的平滑动画 */
+        .leaderboard-container.expanded .leaderboard-content {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                max-height: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                max-height: 400px;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 游戏完成时的特殊动画 */
+        .leaderboard-container.game-completed {
+            animation: leaderboard-pulse 2s ease-in-out, leaderboard-glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes leaderboard-glow {
+            0%, 100% { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); }
+            50% { box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3); }
+        }
+        
+        /* 排行榜收缩时的提示文字 */
+        .leaderboard-container.collapsed::after {
+            content: "🏆 Rankings";
+            position: absolute;
+            left: 70px;
+            top: 70%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            font-weight: bold;
+            color: #ffd700;
+            opacity: 0.95;
+            white-space: nowrap;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #fff8e1 0%, #fff3cd 50%, #ffeaa7 100%);
+            padding: 8px 14px;
+            border-radius: 18px;
+            border: 2px solid;
+            border-image: linear-gradient(145deg, #ffd700, #ffb300) 1;
+            box-shadow: 
+                0 4px 16px rgba(255, 215, 0, 0.3),
+                0 2px 8px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        
+        .leaderboard-container:hover::after {
+            opacity: 0;
+            transform: translateY(-50%) scale(0.9);
+        }
+        
+        .leaderboard-container.expanded::after {
+            opacity: 0;
+            transform: translateY(-50%) scale(0.9);
+        }
+        
+        /* 添加悬停提示 */
+        .leaderboard-container.collapsed::before {
+            content: "👆 Hover";
+            position: absolute;
+            left: 70px;
+            top: 30%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            font-weight: 600;
+            color: #ffb300;
+            opacity: 0.9;
+            white-space: nowrap;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 248, 225, 0.9));
+            padding: 5px 10px;
+            border-radius: 12px;
+            border: 1px solid #ffd700;
+            box-shadow: 
+                0 2px 8px rgba(255, 215, 0, 0.2),
+                0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .leaderboard-container:hover::before {
+            opacity: 0;
+            transform: translateY(-50%) scale(0.9);
+        }
+        
+        .leaderboard-container.expanded::before {
+            opacity: 0;
+            transform: translateY(-50%) scale(0.9);
+        }
+        
+        /* 添加脉冲动画效果 */
+        .leaderboard-container.collapsed {
+            animation: leaderboard-pulse-gentle 4s ease-in-out infinite;
+        }
+        
+        @keyframes leaderboard-pulse-gentle {
+            0%, 100% { 
+                box-shadow: 
+                    0 8px 32px rgba(0, 0, 0, 0.08),
+                    0 4px 16px rgba(0, 0, 0, 0.04),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+                transform: translateX(0) scale(1);
+            }
+            50% { 
+                box-shadow: 
+                    0 12px 40px rgba(0, 0, 0, 0.12),
+                    0 6px 20px rgba(0, 0, 0, 0.06),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+                transform: translateX(0) scale(1.01);
+            }
+        }
+        
+        /* 悬停时的特殊效果 */
+        .leaderboard-container:hover {
+            animation: none;
+            transform: translateX(0) scale(1.02);
+        }
+        
+        .leaderboard-list {
+            /* 移除高度限制和滚动条 */
+        }
+        
+
         
         .leaderboard-item.rank-1 {
             background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
@@ -694,6 +1115,7 @@
             min-height: 80px;
         }
         
+        .grid-cell.tile-1 { background: #eee4da; color: #776e65; }
         .grid-cell.tile-2 { background: #eee4da; }
         .grid-cell.tile-4 { background: #ede0c8; }
         .grid-cell.tile-8 { background: #f2b179; color: #f9f6f2; }
@@ -819,6 +1241,9 @@
                 width: 300px;
             }
         }
+        
+        /* 添加红色小标签样式 */
+
     </style>
 
     <script>
@@ -1031,10 +1456,11 @@
             }
         }
 
-        // 初始化防爬虫保护
-        const antiCrawler = new AntiCrawler();
+        // 暂时禁用防爬虫保护
+        // const antiCrawler = new AntiCrawler();
 
-        // 额外的防爬虫保护
+        // 暂时禁用额外的防爬虫保护
+        /*
         (function() {
             'use strict';
             
@@ -1146,6 +1572,7 @@
             }
             
         })();
+        */
 
         // 游戏相关功能
         function showGame(idx) {
@@ -1304,11 +1731,14 @@
             canMerge(a, b, mergeRule) {
                 switch(mergeRule) {
                     case 'fibonacci':
-                        // 斐波那契数列：相邻两个数可以合并
-                        const fib = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584];
-                        const aIndex = fib.indexOf(a);
-                        const bIndex = fib.indexOf(b);
-                        return aIndex >= 0 && bIndex >= 0 && Math.abs(aIndex - bIndex) === 1;
+                        // 斐波那契数列：两个相同的数可以合并成下一个斐波那契数
+                        if (a === b) {
+                            const fib = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584];
+                            const aIndex = fib.indexOf(a);
+                            // 修复：只允许相同数合并，确保有下一个斐波那契数
+                            return aIndex >= 0 && aIndex < fib.length - 1;
+                        }
+                        return false;
                     case 'powers3':
                         // 3的幂次：相同数可以合并
                         return a === b;
@@ -1332,10 +1762,25 @@
                     case 'fibonacci':
                         // 斐波那契数列的下一个数
                         const fib = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584];
-                        const maxIndex = Math.max(fib.indexOf(a), fib.indexOf(b));
-                        return fib[maxIndex + 1] || fib[maxIndex];
+                        // 修复：对于1+1=2，需要特殊处理
+                        if (a === 1 && b === 1) {
+                            return 2;
+                        }
+                        // 对于其他数，找到当前数在数列中的位置，返回下一个数
+                        let currentIndex = -1;
+                        for (let i = 0; i < fib.length; i++) {
+                            if (fib[i] === a) {
+                                currentIndex = i;
+                                break;
+                            }
+                        }
+                        if (currentIndex >= 0 && currentIndex < fib.length - 1) {
+                            return fib[currentIndex + 1];
+                        }
+                        return a; // 如果没有下一个数，返回原数
                     case 'reverse':
-                        // 反向：大数合并成小数
+                        // 反向：大数合并成小数，但保持合理的分数增长
+                        // 例如：2048 + 2048 = 1024，但得分是合并后的值
                         return Math.min(a, b) / 2;
                     case 'merge3':
                         // 合并3个相同数
@@ -1392,17 +1837,15 @@
                         }
                     } else {
                         // 经典合并逻辑
-                        for (let j = 0; j < row.length - 1; j++) {
-                            if (this.canMerge(row[j], row[j + 1], config.mergeRule)) {
-                                newRow.push(this.getMergeResult(row[j], row[j + 1], config.mergeRule));
-                                this.score += newRow[newRow.length - 1];
-                                j++;
+                        for (let j = 0; j < row.length; j++) {
+                            if (j < row.length - 1 && this.canMerge(row[j], row[j + 1], config.mergeRule)) {
+                                const mergeResult = this.getMergeResult(row[j], row[j + 1], config.mergeRule);
+                                newRow.push(mergeResult);
+                                this.score += mergeResult;
+                                j++; // 跳过下一个数，因为已经合并了
                             } else {
                                 newRow.push(row[j]);
                             }
-                        }
-                        if (row.length > 0 && newRow.length < row.length) {
-                            newRow.push(row[row.length - 1]);
                         }
                     }
                     
@@ -1436,17 +1879,14 @@
                         }
                     } else {
                         // 经典合并逻辑
-                        for (let j = row.length - 1; j > 0; j--) {
-                            if (this.canMerge(row[j], row[j - 1], config.mergeRule)) {
+                        for (let j = row.length - 1; j >= 0; j--) {
+                            if (j > 0 && this.canMerge(row[j], row[j - 1], config.mergeRule)) {
                                 newRow.unshift(this.getMergeResult(row[j], row[j - 1], config.mergeRule));
                                 this.score += newRow[0];
                                 j--;
                             } else {
                                 newRow.unshift(row[j]);
                             }
-                        }
-                        if (row.length > 0 && newRow.length < row.length) {
-                            newRow.unshift(row[0]);
                         }
                     }
                     
@@ -1483,17 +1923,14 @@
                         }
                     } else {
                         // 经典合并逻辑
-                        for (let i = 0; i < col.length - 1; i++) {
-                            if (this.canMerge(col[i], col[i + 1], config.mergeRule)) {
+                        for (let i = 0; i < col.length; i++) {
+                            if (i < col.length - 1 && this.canMerge(col[i], col[i + 1], config.mergeRule)) {
                                 newCol.push(this.getMergeResult(col[i], col[i + 1], config.mergeRule));
                                 this.score += newCol[newCol.length - 1];
                                 i++;
                             } else {
                                 newCol.push(col[i]);
                             }
-                        }
-                        if (col.length > 0 && newCol.length < col.length) {
-                            newCol.push(col[col.length - 1]);
                         }
                     }
                     
@@ -1532,17 +1969,14 @@
                         }
                     } else {
                         // 经典合并逻辑
-                        for (let i = col.length - 1; i > 0; i--) {
-                            if (this.canMerge(col[i], col[i - 1], config.mergeRule)) {
+                        for (let i = col.length - 1; i >= 0; i--) {
+                            if (i > 0 && this.canMerge(col[i], col[i - 1], config.mergeRule)) {
                                 newCol.unshift(this.getMergeResult(col[i], col[i - 1], config.mergeRule));
                                 this.score += newCol[0];
                                 i--;
                             } else {
                                 newCol.unshift(col[i]);
                             }
-                        }
-                        if (col.length > 0 && newCol.length < col.length) {
-                            newCol.unshift(col[0]);
                         }
                     }
                     
@@ -1608,7 +2042,8 @@
                             value = Math.random() < 0.8 ? 1 : 5;
                             break;
                         case 'reverse':
-                            value = Math.random() < 0.8 ? 2048 : 1024;
+                            // Reverse模式使用较小的初始值，避免分数过高
+                            value = Math.random() < 0.8 ? 2 : 4;
                             break;
                         case 'merge3':
                             value = Math.random() < 0.8 ? 2 : 4;
@@ -1630,6 +2065,8 @@
                         if (this.grid[i][j] === config.target && !this.gameWon) {
                             this.gameWon = true;
                             this.showMessage('You win!', 'game-won');
+                            // 游戏获胜时自动展开排行榜
+                            this.expandLeaderboard();
                         }
                     }
                 }
@@ -1638,6 +2075,9 @@
                 if (this.isGameOver()) {
                     this.gameOver = true;
                     this.showMessage('Game Over!', 'game-over');
+                    
+                    // 游戏结束时自动展开排行榜
+                    this.expandLeaderboard();
                     
                     // 游戏结束时自动检查分数是否可以进入排行榜
                     setTimeout(() => {
@@ -1649,6 +2089,36 @@
                 if (this.score > this.bestScore) {
                     this.bestScore = this.score;
                     localStorage.setItem('bestScore', this.bestScore);
+                }
+            }
+            
+            expandLeaderboard() {
+                const leaderboardContainer = document.getElementById('leaderboard-container');
+                if (leaderboardContainer) {
+                    // 添加游戏完成状态
+                    leaderboardContainer.classList.add('game-completed');
+                    leaderboardContainer.classList.remove('collapsed');
+                    leaderboardContainer.classList.add('expanded');
+                    
+                    // 5秒后移除游戏完成状态，允许自动收缩
+                    setTimeout(() => {
+                        leaderboardContainer.classList.remove('game-completed');
+                    }, 5000);
+                }
+            }
+            
+            keepLeaderboardExpanded() {
+                const leaderboardContainer = document.getElementById('leaderboard-container');
+                if (leaderboardContainer) {
+                    // 保持展开状态，不自动收缩
+                    leaderboardContainer.classList.remove('collapsed');
+                    leaderboardContainer.classList.add('expanded');
+                    leaderboardContainer.classList.add('game-completed');
+                    
+                    // 10秒后允许自动收缩
+                    setTimeout(() => {
+                        leaderboardContainer.classList.remove('game-completed');
+                    }, 10000);
                 }
             }
 
@@ -1699,6 +2169,12 @@
             }
 
             checkScoreForLeaderboard() {
+                // Reverse 2048模式不计入排行榜
+                if (this.currentMode === 'reverse') {
+                    console.log('Reverse 2048 mode - score not eligible for leaderboard');
+                    return;
+                }
+                
                 // 检查分数是否可以进入排行榜
                 const shouldEnterLeaderboard = this.checkIfScoreQualifies(this.score);
                 
@@ -1741,6 +2217,9 @@
                     const activeTab = document.querySelector('.tab-btn.active')?.dataset.tab || 'global';
                     loadLeaderboardData(activeTab);
 
+                    // 保持排行榜展开状态
+                    this.keepLeaderboardExpanded();
+
                     alert(`🎊 Amazing! You're now on the leaderboard!\nPlayer: ${trimmedName}\nScore: ${this.score.toLocaleString()}\nGame Mode: ${scoreRecord.gameMode}`);
                 }
             }
@@ -1763,6 +2242,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             try {
                 gameInstance = new Game2048();
+                // 确保游戏实例绑定到全局
+                window.gameInstance = gameInstance;
             } catch (error) {
                 console.error('Error initializing game:', error);
             }
@@ -1773,12 +2254,58 @@
         
         // 排行榜功能
         function initLeaderboard() {
+            // 初始化排行榜为收缩状态
+            const leaderboardContainer = document.getElementById('leaderboard-container');
+            leaderboardContainer.classList.add('collapsed');
+            
+            // 添加点击事件来切换展开/收缩状态
+            leaderboardContainer.addEventListener('click', function(e) {
+                // 如果点击的是排行榜内容区域，不切换状态
+                if (e.target.closest('.leaderboard-content') || 
+                    e.target.closest('.leaderboard-actions') ||
+                    e.target.closest('.leaderboard-tabs')) {
+                    return;
+                }
+                
+                // 切换展开/收缩状态
+                if (this.classList.contains('expanded')) {
+                    this.classList.remove('expanded');
+                    this.classList.add('collapsed');
+                } else {
+                    this.classList.remove('collapsed');
+                    this.classList.add('expanded');
+                }
+            });
+            
+            // 鼠标离开时自动收缩（延迟执行）
+            let collapseTimeout;
+            leaderboardContainer.addEventListener('mouseleave', function() {
+                // 如果不是游戏完成状态，则延迟收缩
+                if (!this.classList.contains('game-completed')) {
+                    collapseTimeout = setTimeout(() => {
+                        if (!this.matches(':hover')) {
+                            this.classList.remove('expanded');
+                            this.classList.add('collapsed');
+                        }
+                    }, 1000); // 1秒后收缩
+                }
+            });
+            
+            // 鼠标进入时清除收缩定时器
+            leaderboardContainer.addEventListener('mouseenter', function() {
+                if (collapseTimeout) {
+                    clearTimeout(collapseTimeout);
+                }
+            });
+            
             // 标签页切换
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabContents = document.querySelectorAll('.tab-content');
             
             tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // 阻止事件冒泡
+                    
                     const targetTab = btn.dataset.tab;
                     
                     // 更新按钮状态
@@ -1808,19 +2335,19 @@
             }
 
             if (refreshBtn) {
-                refreshBtn.addEventListener('click', () => {
+                refreshBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // 阻止事件冒泡
                     const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
                     loadLeaderboardData(activeTab);
                 });
             }
 
             if (clearSampleBtn) {
-                clearSampleBtn.addEventListener('click', clearSampleData);
+                clearSampleBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // 阻止事件冒泡
+                    clearSampleData();
+                });
             }
-            
-
-            
-
             
             // 初始化加载全球排行榜
             loadLeaderboardData('global');
@@ -1904,7 +2431,9 @@
                     { name: 'Kevin', score: 7230, mode: 'powers3' },
                     { name: 'Rachel', score: 6890, mode: 'reverse' },
                     { name: 'Steve', score: 6540, mode: 'merge3' },
-                    { name: 'Nina', score: 6210, mode: 'classic' }
+                    { name: 'Nina', score: 6210, mode: 'classic' },
+                    { name: 'Paul', score: 5980, mode: '5x5' },
+                    { name: 'Maya', score: 5720, mode: 'fibonacci' }
                 ];
                 
                 dailyScores.forEach((player, index) => {
@@ -1926,7 +2455,10 @@
                     { name: 'Emma', score: 11560, mode: '3x3', daysAgo: 3 },
                     { name: 'David', score: 10980, mode: 'powers3', daysAgo: 2 },
                     { name: 'Lisa', score: 10340, mode: 'reverse', daysAgo: 1 },
-                    { name: 'John', score: 9870, mode: 'merge3', daysAgo: 4 }
+                    { name: 'John', score: 9870, mode: 'merge3', daysAgo: 4 },
+                    { name: 'Tom', score: 9450, mode: 'classic', daysAgo: 2 },
+                    { name: 'Sophie', score: 9120, mode: '3x3', daysAgo: 1 },
+                    { name: 'Anna', score: 8890, mode: '5x5', daysAgo: 3 }
                 ];
                 
                 friendsScores.forEach((player, index) => {
