@@ -6,14 +6,33 @@ function initializeDropdownMenu() {
     const dropdownMenu = document.getElementById('dropdownMenu');
     
     if (menuIcon && dropdownMenu) {
-        menuIcon.addEventListener('click', function(e) {
+        // Toggle with click / keyboard
+        const toggleMenu = (e) => {
             e.preventDefault();
+            const willShow = !dropdownMenu.classList.contains('show');
             dropdownMenu.classList.toggle('show');
+            dropdownMenu.setAttribute('aria-hidden', willShow ? 'false' : 'true');
+            menuIcon.setAttribute('aria-expanded', willShow ? 'true' : 'false');
+        };
+
+        menuIcon.addEventListener('click', toggleMenu);
+        menuIcon.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                toggleMenu(e);
+            }
+            if (e.key === 'Escape') {
+                dropdownMenu.classList.remove('show');
+                dropdownMenu.setAttribute('aria-hidden', 'true');
+                menuIcon.setAttribute('aria-expanded', 'false');
+                menuIcon.focus();
+            }
         });
         
         document.addEventListener('click', function(e) {
             if (!dropdownMenu.contains(e.target) && e.target !== menuIcon) {
                 dropdownMenu.classList.remove('show');
+                dropdownMenu.setAttribute('aria-hidden', 'true');
+                menuIcon.setAttribute('aria-expanded', 'false');
             }
         });
     }
@@ -53,25 +72,7 @@ function initializeButtonStates() {
     });
 }
 
-// Initialize all common functionality
-document.addEventListener('DOMContentLoaded', function() {
-    initializeDropdownMenu();
-    initializeSmoothScrolling();
-    initializeButtonStates();
-    
-    // Add fade-in animation to main content
-    const mainContent = document.querySelector('.container, .game-fullscreen');
-    if (mainContent) {
-        mainContent.style.opacity = '0';
-        mainContent.style.transform = 'translateY(20px)';
-        mainContent.style.transition = 'all 0.6s ease';
-        
-        setTimeout(() => {
-            mainContent.style.opacity = '1';
-            mainContent.style.transform = 'translateY(0)';
-        }, 100);
-    }
-});
+// Common functions - initialization moved to index.html to avoid duplicate listeners
 
 // Utility functions
 const Utils = {
