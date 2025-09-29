@@ -1,52 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#007AFF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#5856D6;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  
-  <!-- Background -->
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  
-  <!-- Game Grid Pattern -->
-  <g opacity="0.1">
-    <rect x="100" y="150" width="80" height="80" fill="white" rx="8"/>
-    <rect x="200" y="150" width="80" height="80" fill="white" rx="8"/>
-    <rect x="300" y="150" width="80" height="80" fill="white" rx="8"/>
-    <rect x="400" y="150" width="80" height="80" fill="white" rx="8"/>
-    <rect x="100" y="250" width="80" height="80" fill="white" rx="8"/>
-    <rect x="200" y="250" width="80" height="80" fill="white" rx="8"/>
-    <rect x="300" y="250" width="80" height="80" fill="white" rx="8"/>
-    <rect x="400" y="250" width="80" height="80" fill="white" rx="8"/>
-    <rect x="100" y="350" width="80" height="80" fill="white" rx="8"/>
-    <rect x="200" y="350" width="80" height="80" fill="white" rx="8"/>
-    <rect x="300" y="350" width="80" height="80" fill="white" rx="8"/>
-    <rect x="400" y="350" width="80" height="80" fill="white" rx="8"/>
-  </g>
-  
-  <!-- Main Title -->
-  <text x="600" y="200" font-family="Arial, sans-serif" font-size="72" font-weight="bold" text-anchor="middle" fill="white">2468 Game</text>
-  <text x="600" y="280" font-family="Arial, sans-serif" font-size="36" text-anchor="middle" fill="white">Free Number Puzzle Games</text>
-  
-  <!-- Subtitle -->
-  <text x="600" y="500" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="white" opacity="0.9">Challenge your brain with smooth gameplay!</text>
-  
-  <!-- Game Numbers -->
-  <g transform="translate(800, 200)">
-    <rect x="0" y="0" width="60" height="60" fill="#FF9500" rx="8"/>
-    <text x="30" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="white">2</text>
-  </g>
-  <g transform="translate(870, 200)">
-    <rect x="0" y="0" width="60" height="60" fill="#34C759" rx="8"/>
-    <text x="30" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="white">4</text>
-  </g>
-  <g transform="translate(940, 200)">
-    <rect x="0" y="0" width="60" height="60" fill="#AF52DE" rx="8"/>
-    <text x="30" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="white">6</text>
-  </g>
-  <g transform="translate(1010, 200)">
-    <rect x="0" y="0" width="60" height="60" fill="#FF3B30" rx="8"/>
-    <text x="30" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="white">8</text>
-  </g>
-</svg> 
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" fill="#007AFF" rx="4"/>
+  <text x="16" y="22" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">24</text>
+  <text x="16" y="32" font-family="Arial, sans-serif" font-size="8" font-weight="bold" text-anchor="middle" fill="white">68</text>
+</svg>
